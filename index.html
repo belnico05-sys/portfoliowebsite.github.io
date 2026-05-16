@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nicola Bellucci</title>
+  <style>
+    @font-face {
+      font-family: "Avenir Next";
+      src: local("AvenirNext-Bold"), url(./fonts/AvenirNext-Bold.woff2);
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      --c-primary: #ffffff;
+      --c-secondary: #A4A5A6;
+      --c-tertiary: rgba(164, 165, 166, 0.5);
+      --c-fourth: rgba(164, 165, 166, 0.3);
+      --c-accent: #A62929;
+      --v-space: 6rem;
+      --canvas-height: 80vh;
+      --f-weight: 600;
+      --border-radius: min(10vw, var(--v-space));
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      line-height: 1.5;
+      font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+      color: var(--c-secondary);
+      box-sizing: border-box;
+      background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    a {
+      color: #A4A5A6;
+      text-decoration: underline;
+    }
+
+    main {
+      display: grid;
+      row-gap: 0;
+      grid-template-columns: 1fr 6fr 4fr 1fr;
+      grid-template-rows: auto auto auto auto auto auto auto;
+      grid-template-areas:
+        "header           header           header           header"
+        "intro            intro            intro            intro"
+        "bio              bio              bio              bio"
+        "education        education        education        education"
+        "associations     associations     associations     associations"
+        "projects-awards  projects-awards  projects-awards  projects-awards"
+        "footer           footer           footer           footer";
+    }
+
+    /* HEADER */
+    header {
+      grid-area: header;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 3.5rem 8.333vw 1.5rem;
+      background: linear-gradient(rgba(0,5,20,0.52), rgba(0,5,20,0.52)),
+                  url(headerbackground.jpg) center top / cover fixed;
+    }
+
+    .site-title {
+      font-size: clamp(3.5rem, 6vw, 6.25rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .site-nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      padding-top: 0.5rem;
+    }
+
+    .site-nav a {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+    }
+
+    .site-nav a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* INTRO */
+    .intro {
+      grid-area: intro;
+      padding: 0 8.333vw 3rem;
+      background: linear-gradient(rgba(0,5,20,0.52), rgba(0,5,20,0.52)),
+                  url(headerbackground.jpg) center top / cover fixed;
+    }
+
+    .intro p {
+      font-size: clamp(1rem, 1.8vw, 1.35rem);
+      font-weight: var(--f-weight);
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.4;
+    }
+
+    /* BIO */
+    .bio-section {
+      grid-area: bio;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      padding: 3.5rem 8.333vw 4rem;
+    }
+
+    .profile-picture {
+      flex-shrink: 0;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .bio-text {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      line-height: 1.7;
+      color: var(--c-secondary);
+    }
+
+    /* LISTING SECTIONS */
+    .education-section     { grid-area: education; }
+    .associations-section  { grid-area: associations; }
+    .projects-awards-section { grid-area: projects-awards; }
+
+    .education-section,
+    .associations-section,
+    .projects-awards-section {
+      padding: 3rem 8.333vw;
+      border-top: 1px solid rgba(164, 165, 166, 0.08);
+    }
+
+    .section-label {
+      display: block;
+      text-align: left;
+      margin: 0 0 2rem 0;
+      font-size: clamp(2rem, 3.5vw, 3.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      line-height: 1.1;
+    }
+
+    .work-entry {
+      display: grid;
+      grid-template-columns: 4fr 6fr;
+      gap: 2rem;
+      align-items: start;
+      padding: 1.5rem 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .work-entry:hover {
+      transform: scale(1.015);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    a.work-entry {
+      text-decoration: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .work-entry--featured {
+      padding: 2.25rem 2.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .work-entry--featured .company-name {
+      font-size: clamp(1.6rem, 3vw, 3.5rem);
+    }
+
+    .work-entry--minor {
+      max-width: 55%;
+      margin: 0 auto;
+      padding: 0.9rem 1.4rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: none;
+    }
+
+    .work-entry--minor .company-name {
+      font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+    }
+
+    .work-entry--minor .company-date {
+      font-size: 0.7rem;
+    }
+
+    .work-entry--minor .work-desc {
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .work-entry--minor .org-logo {
+      width: 28px;
+      height: 28px;
+    }
+
+    .company-name {
+      font-size: clamp(1.3rem, 2.5vw, 2.75rem);
+      font-weight: 700;
+      color: var(--c-primary);
+      text-decoration: underline;
+      display: block;
+    }
+
+    .company-name.no-link {
+      text-decoration: none;
+      cursor: default;
+    }
+
+    .company-date {
+      font-size: 0.8rem;
+      color: rgba(164, 165, 166, 0.65);
+      margin-top: 0.15rem;
+      font-weight: 400;
+    }
+
+    .work-desc {
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .work-desc p + p,
+    .work-desc ul + p {
+      margin-top: 1rem;
+    }
+
+    .work-desc p + ul {
+      margin-top: 0.5rem;
+    }
+
+    .work-desc strong {
+      font-weight: 700;
+      color: white;
+    }
+
+    .work-desc a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .work-desc ul {
+      margin: 0.5rem 0 0.5rem 1.25rem;
+    }
+
+    /* FOOTER */
+    footer {
+      grid-area: footer;
+      padding: 1.5rem 8.333vw;
+      border-top: 1px solid rgba(164, 165, 166, 0.15);
+      font-size: 0.875rem;
+    }
+
+    .credit {
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: rgba(164, 165, 166, 0.45);
+    }
+
+    .credit a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .work-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* Org logos and initials */
+    .org-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .org-logo {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .org-initial {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    /* Interests tags */
+    .competency-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .competency-tag {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(164, 165, 166, 0.25);
+      border-radius: 999px;
+      padding: 0.5rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #A4A5A6;
+    }
+
+    /* PROJECT VIDEO */
+    .project-video-wrap {
+      margin-top: 2.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .project-video {
+      width: 100%;
+      max-width: 860px;
+      max-height: 480px;
+      object-fit: contain;
+      border-radius: 1rem;
+      background: #000;
+      display: block;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+
+    /* Tablet (769px – 1024px) */
+    @media (max-width: 1024px) and (min-width: 769px) {
+      main {
+        grid-template-columns: 0.5fr 6fr 4fr 0.5fr;
+      }
+
+      .education-section,
+      .associations-section,
+      .projects-awards-section {
+        padding: 2rem 2rem;
+      }
+
+      header, .intro {
+        padding-left: 4vw;
+        padding-right: 4vw;
+      }
+    }
+
+    /* Mobile (≤ 768px) */
+    @media (max-width: 768px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "header"
+          "intro"
+          "bio"
+          "education"
+          "associations"
+          "projects-awards"
+          "footer";
+      }
+
+      header {
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 2rem 1.5rem 1.75rem;
+        background-attachment: scroll;
+      }
+
+      .intro {
+        padding: 0 1.5rem 2.5rem;
+        background-attachment: scroll;
+      }
+
+      .site-nav {
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+      }
+
+      .bio-section {
+        flex-direction: column;
+        padding: 2.5rem 1.5rem 2.5rem;
+        gap: 1.5rem;
+      }
+
+      .profile-picture {
+        width: 140px;
+        height: 140px;
+      }
+
+      .education-section,
+      .associations-section,
+      .projects-awards-section {
+        padding: 2rem 1.5rem;
+      }
+
+      .work-entry {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .company-name {
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
+      }
+
+      footer {
+        padding: 1.5rem;
+        text-align: center;
+      }
+    }
+
+    /* Scroll slide-in animation */
+    .education-section,
+    .associations-section,
+    .projects-awards-section,
+    .bio-section {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .section-visible {
+      opacity: 1 !important;
+      transform: translateX(0) !important;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1 class="site-title">Nicola Bellucci</h1>
+      <nav class="site-nav">
+        <a href="#education">Higher Education</a>
+        <a href="#associations">Associations and Competitions</a>
+        <a href="#projects-awards">Projects and Awards</a>
+        <a href="about.html">More About Me</a>
+      </nav>
+    </header>
+
+    <section class="intro">
+      <p>Aerospace engineering student in Pisa.</p>
+    </section>
+
+    <section class="bio-section">
+      <img class="profile-picture" src="profile.jpg" alt="Nicola Bellucci">
+      <p class="bio-text"><strong>HELLO THERE!</strong> I'm a passionate engineering student currently pursuing my BSc, eager to gain valuable experiences all over the world, meet incredible people and discover amazing places thanks to the fascinating world of aerospace and aeronautics. Here you can find a brief overview of my academic and professional journey. Don't hesitate to reach out through social media or email, I'm always available for a chat!</p>
+    </section>
+
+    <section class="education-section" id="education">
+      <div class="section-label">Higher Education</div>
+      <div class="work-entries">
+
+        <div class="work-entry work-entry--featured">
+          <div>
+            <div class="org-header">
+              <img src="logos/unipi.png" alt="University of Pisa" class="org-logo">
+              <div>
+                <span class="company-name no-link">University of Pisa</span>
+                <div class="company-date">2024–Present</div>
+              </div>
+            </div>
+          </div>
+          <div class="work-desc">
+            <p><strong>BSc Aerospace Engineering.</strong> Core curriculum covering aerodynamics, propulsion, and applied mechanics.</p>
+          </div>
+        </div>
+
+        <div class="work-entry work-entry--minor">
+          <div>
+            <div class="org-header">
+              <img src="logos/santanna.png" alt="Scuola Superiore Sant'Anna" class="org-logo">
+              <div>
+                <span class="company-name no-link">S.S. Sant'Anna</span>
+                <div class="company-date">May 2025</div>
+              </div>
+            </div>
+          </div>
+          <div class="work-desc">
+            <p>Seasonal School <strong>SP2ARK</strong> — Space Plasma Propulsion: Advancements, Research and Know-how. Aerospace and astronautical engineering.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="associations-section" id="associations">
+      <div class="section-label">Associations and Competitions</div>
+      <div class="work-entries">
+
+        <a class="work-entry" href="https://pisa.euroavia.eu/" target="_blank" rel="noopener">
+          <div>
+            <div class="org-header">
+              <img src="logos/euroavia.svg" alt="EUROAVIA" class="org-logo">
+              <div>
+                <span class="company-name no-link">EUROAVIA Pisa</span>
+                <div class="company-date">Oct 2025–Present</div>
+              </div>
+            </div>
+          </div>
+          <div class="work-desc">
+            <p><strong>Local Board Member.</strong></p>
+          </div>
+        </a>
+
+        <a class="work-entry" href="https://leaningproject.it/" target="_blank" rel="noopener">
+          <div>
+            <div class="org-header">
+              <img src="logos/leaning.png" alt="Leaning Project" class="org-logo">
+              <div>
+                <span class="company-name no-link">Leaning Project</span>
+                <div class="company-date">Dec 2024–Present</div>
+              </div>
+            </div>
+          </div>
+          <div class="work-desc">
+            <p><strong>CAD Designer.</strong></p>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="projects-awards-section" id="projects-awards">
+      <div class="section-label">Projects and Awards</div>
+      <div class="work-entries">
+
+        <div class="work-entry">
+          <div>
+            <div class="org-header">
+              <div>
+                <span class="company-name no-link">Drone Concept from Scratch</span>
+              </div>
+            </div>
+          </div>
+          <div class="work-desc">
+            <p></p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="project-video-wrap">
+        <video class="project-video" controls muted playsinline>
+          <source src="project%20videos/20240322_163746.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="work-entries" style="margin-top: 1rem;">
+
+        <div class="work-entry">
+          <div>
+            <div class="org-header">
+              <div>
+                <span class="company-name no-link"></span>
+              </div>
+            </div>
+          </div>
+          <div class="work-desc">
+            <p></p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      <p>You can follow me on <a href="https://www.instagram.com/bel.nico.05/">Instagram</a> and <a href="https://www.linkedin.com/in/nicola-bellucci-a7a843324/">LinkedIn</a>. Feel free to contact me on my <a href="mailto: belnico05@gmail.com">email</a>.</p>
+      <p class="credit">Built with Claude Code</p>
+    </footer>
+  </main>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('section-visible');
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll(
+      '.bio-section, .education-section, .associations-section, .projects-awards-section'
+    ).forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

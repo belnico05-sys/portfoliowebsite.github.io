@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>More About Me — Nicola Bellucci</title>
+  <style>
+    @font-face {
+      font-family: "Avenir Next";
+      src: local("AvenirNext-Bold"), url(./fonts/AvenirNext-Bold.woff2);
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      --c-primary: #ffffff;
+      --c-secondary: #A4A5A6;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      line-height: 1.5;
+      font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+      color: var(--c-secondary);
+      background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    a {
+      color: #A4A5A6;
+      text-decoration: underline;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 3.5rem 8.333vw 1.5rem;
+      background: linear-gradient(rgba(0,5,20,0.52), rgba(0,5,20,0.52)),
+                  url(headerbackground.jpg) center top / cover fixed;
+    }
+
+    .site-title {
+      font-size: clamp(3.5rem, 6vw, 6.25rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    .site-title:hover {
+      color: white;
+    }
+
+    .site-nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      padding-top: 0.5rem;
+    }
+
+    .site-nav a {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+    }
+
+    .site-nav a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .site-nav a.active {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* MAIN LAYOUT */
+    .about-layout {
+      display: flex;
+      gap: 5rem;
+      padding: 4rem 8.333vw;
+      align-items: flex-start;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 180px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 3rem;
+    }
+
+    .sidebar-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(164, 165, 166, 0.45);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .sidebar-nav a {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(164, 165, 166, 0.6);
+      text-decoration: none;
+      padding: 0.35rem 0 0.35rem 0.875rem;
+      border-left: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      color: white;
+      border-left-color: white;
+    }
+
+    /* CONTENT */
+    .about-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .topic-section {
+      padding-bottom: 5rem;
+      border-bottom: 1px solid rgba(164, 165, 166, 0.08);
+      margin-bottom: 5rem;
+    }
+
+    .topic-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 2rem;
+    }
+
+    .topic-heading {
+      font-size: clamp(2rem, 3.5vw, 3.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-subtitle {
+      font-size: 0.875rem;
+      color: rgba(164, 165, 166, 0.55);
+      margin-bottom: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .topic-context {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--c-secondary);
+      margin-bottom: 2.5rem;
+      max-width: 68ch;
+    }
+
+    /* Images */
+    .topic-images {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .topic-images img {
+      border-radius: 0.75rem;
+      object-fit: cover;
+      flex: 1;
+      min-width: 180px;
+      height: 200px;
+    }
+
+    /* Book references */
+    .books-heading {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(164, 165, 166, 0.45);
+      margin-bottom: 1rem;
+    }
+
+    .books-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .book-card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(164, 165, 166, 0.12);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      display: flex;
+      gap: 0.875rem;
+      align-items: flex-start;
+      width: calc(50% - 0.5rem);
+      min-width: 200px;
+      transition: background 0.2s;
+    }
+
+    .book-card:hover {
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    .book-cover {
+      width: 52px;
+      height: 72px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .book-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .book-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1.3;
+    }
+
+    .book-author {
+      font-size: 0.8rem;
+      color: rgba(164, 165, 166, 0.6);
+    }
+
+    /* Footer */
+    footer {
+      padding: 1.5rem 8.333vw;
+      border-top: 1px solid rgba(164, 165, 166, 0.15);
+      font-size: 0.875rem;
+    }
+
+    .credit {
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: rgba(164, 165, 166, 0.45);
+    }
+
+    .credit a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 2rem 1.5rem 1.75rem;
+        background-attachment: scroll;
+      }
+
+      .site-nav {
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+      }
+
+      .about-layout {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        gap: 2rem;
+      }
+
+      .sidebar {
+        width: 100%;
+        position: static;
+      }
+
+      .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.25rem;
+      }
+
+      .sidebar-nav a {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        padding-left: 0;
+        padding-bottom: 0.2rem;
+      }
+
+      .sidebar-nav a:hover,
+      .sidebar-nav a.active {
+        border-left-color: transparent;
+        border-bottom-color: white;
+      }
+
+      .book-card {
+        width: 100%;
+      }
+
+      footer {
+        padding: 1.5rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="site-title">Nicola Bellucci</a>
+    <nav class="site-nav">
+      <a href="index.html#education">Higher Education</a>
+      <a href="index.html#associations">Associations and Competitions</a>
+      <a href="index.html#projects-awards">Projects and Awards</a>
+      <a href="about.html" class="active">More About Me</a>
+    </nav>
+  </header>
+
+  <div class="about-layout">
+    <aside class="sidebar">
+      <div class="sidebar-label">Topics</div>
+      <nav class="sidebar-nav">
+        <a href="#rugby">Rugby</a>
+        <a href="#finance">Finance</a>
+        <a href="#entrepreneurship">Entrepreneurship</a>
+        <a href="#music">Music</a>
+        <a href="#philosophy">Philosophy</a>
+      </nav>
+    </aside>
+
+    <div class="about-content">
+
+      <!-- RUGBY -->
+      <section class="topic-section" id="rugby">
+        <h2 class="topic-heading">Rugby</h2>
+        <div class="topic-subtitle">ASD Rugby Gubbio 1984 &middot; 2016&ndash;2025 &middot; Second row &amp; Flanker</div>
+
+        <div class="topic-images">
+          <img src="https://placehold.co/480x200/1a1a2e/A4A5A6?text=Rugby+1" alt="Rugby photo 1">
+          <img src="https://placehold.co/480x200/1a1a2e/A4A5A6?text=Rugby+2" alt="Rugby photo 2">
+          <img src="https://placehold.co/480x200/1a1a2e/A4A5A6?text=Rugby+3" alt="Rugby photo 3">
+        </div>
+
+        <p class="topic-context">
+          Placeholder — add your rugby story here. When did you start, what position did you play, what did the sport teach you, memorable moments, tournaments, teammates.
+        </p>
+
+        <div class="books-heading">Books &amp; References</div>
+        <div class="books-grid">
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a1a2e/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a1a2e/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINANCE -->
+      <section class="topic-section" id="finance">
+        <h2 class="topic-heading">Finance</h2>
+        <div class="topic-subtitle">Personal Finance &amp; Investing</div>
+
+        <div class="topic-images">
+          <img src="https://placehold.co/480x200/1a2020/A4A5A6?text=Finance+1" alt="Finance photo 1">
+          <img src="https://placehold.co/480x200/1a2020/A4A5A6?text=Finance+2" alt="Finance photo 2">
+        </div>
+
+        <p class="topic-context">
+          Placeholder — add your finance journey here. What sparked your interest, how you approach personal finance and investing, key principles you follow, what you're currently learning.
+        </p>
+
+        <div class="books-heading">Books &amp; References</div>
+        <div class="books-grid">
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a2020/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a2020/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a2020/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ENTREPRENEURSHIP -->
+      <section class="topic-section" id="entrepreneurship">
+        <h2 class="topic-heading">Entrepreneurship</h2>
+        <div class="topic-subtitle">Start-ups &amp; Innovation</div>
+
+        <div class="topic-images">
+          <img src="https://placehold.co/480x200/201a1a/A4A5A6?text=Entrepreneurship+1" alt="Entrepreneurship photo 1">
+          <img src="https://placehold.co/480x200/201a1a/A4A5A6?text=Entrepreneurship+2" alt="Entrepreneurship photo 2">
+        </div>
+
+        <p class="topic-context">
+          Placeholder — add your entrepreneurship interests here. What draws you to start-ups and innovation, any ideas or projects you've pursued, the founders or companies that inspire you.
+        </p>
+
+        <div class="books-heading">Books &amp; References</div>
+        <div class="books-grid">
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/201a1a/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MUSIC -->
+      <section class="topic-section" id="music">
+        <h2 class="topic-heading">Music</h2>
+        <div class="topic-subtitle">Listening &amp; Playing</div>
+
+        <div class="topic-images">
+          <img src="https://placehold.co/480x200/1a1a28/A4A5A6?text=Music+1" alt="Music photo 1">
+          <img src="https://placehold.co/480x200/1a1a28/A4A5A6?text=Music+2" alt="Music photo 2">
+        </div>
+
+        <p class="topic-context">
+          Placeholder — add your music story here. What you listen to, any instruments you play, artists or albums that mean something to you, how music fits into your life.
+        </p>
+
+      </section>
+
+      <!-- PHILOSOPHY -->
+      <section class="topic-section" id="philosophy">
+        <h2 class="topic-heading">Philosophy</h2>
+        <div class="topic-subtitle">Ideas &amp; Ways of Thinking</div>
+
+        <div class="topic-images">
+          <img src="https://placehold.co/480x200/1a201a/A4A5A6?text=Philosophy+1" alt="Philosophy photo 1">
+          <img src="https://placehold.co/480x200/1a201a/A4A5A6?text=Philosophy+2" alt="Philosophy photo 2">
+        </div>
+
+        <p class="topic-context">
+          Placeholder — add your philosophy interests here. Schools of thought that resonate with you, thinkers you keep returning to, how philosophical ideas shape the way you see the world.
+        </p>
+
+        <div class="books-heading">Books &amp; References</div>
+        <div class="books-grid">
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a201a/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a201a/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+          <div class="book-card">
+            <img class="book-cover" src="https://placehold.co/52x72/1a201a/A4A5A6?text=Book" alt="Book cover">
+            <div class="book-info">
+              <div class="book-title">Book Title</div>
+              <div class="book-author">Author Name</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>You can follow me on <a href="https://www.instagram.com/bel.nico.05/">Instagram</a> and <a href="https://www.linkedin.com/in/nicola-bellucci-a7a843324/">LinkedIn</a>. Feel free to contact me on my <a href="mailto:belnico05@gmail.com">email</a>.</p>
+    <p class="credit">Built with Claude Code</p>
+  </footer>
+
+  <script>
+    const sections = document.querySelectorAll('.topic-section');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`.sidebar-nav a[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { threshold: 0.25 });
+
+    sections.forEach(section => sectionObserver.observe(section));
+  </script>
+</body>
+</html>
