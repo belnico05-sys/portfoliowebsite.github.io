@@ -40,7 +40,7 @@
       background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
     }
 
-    body {
+    html, body {
       overflow-x: hidden;
     }
 
@@ -85,7 +85,7 @@
 
     .site-nav {
       display: flex;
-      gap: 2rem;
+      gap: clamp(1.25rem, 3vw, 3rem);
       align-items: center;
       padding-top: 0.5rem;
     }
@@ -422,6 +422,10 @@
         padding-left: 4vw;
         padding-right: 4vw;
       }
+
+      .site-nav {
+        gap: 1.25rem;
+      }
     }
 
     /* Mobile (≤ 768px) */
@@ -453,6 +457,7 @@
       .site-nav {
         flex-wrap: wrap;
         gap: 1rem 1.5rem;
+        justify-content: space-between;
       }
 
       .bio-section {
@@ -479,6 +484,24 @@
 
       .company-name {
         font-size: clamp(1.2rem, 5vw, 1.8rem);
+      }
+
+      .work-entry--minor {
+        max-width: 100%;
+      }
+
+      .project-body {
+        flex-direction: column;
+      }
+
+      .video-thumb--sm {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .cert-embed {
+        width: 100%;
+        max-width: 360px;
       }
 
       footer {
@@ -576,7 +599,7 @@
             </div>
           </div>
           <div class="work-desc">
-            <p><strong>Local Board Member.</strong></p>
+            <p><strong>Local Board Member.</strong> European aerospace engineering student association.</p>
           </div>
         </a>
 
@@ -591,7 +614,7 @@
             </div>
           </div>
           <div class="work-desc">
-            <p><strong>CAD Designer.</strong></p>
+            <p><strong>CAD Designer.</strong> University of Pisa student team competing with aircraft.</p>
           </div>
         </a>
 
@@ -618,7 +641,7 @@
           <span class="company-name no-link">Fondazione Talento all'Opera Award</span>
           <div class="project-body">
             <div class="work-desc">
-              <p>Placeholder — add your description of the award here. What it recognises, when you received it, what the project or achievement was that led to it.</p>
+              <p>In May 2025, following the SP2ARK Seasonal School at the Scuola Superiore Sant'Anna, I was awarded the <strong>Premio al Merito</strong> by the Fondazione Il Talento all'Opera — a Pisa-based philanthropic foundation with the mission of promoting academic excellence and equal opportunity in higher education. The prize, is granted to at most three students per Seasonal School edition who achieve the highest score in the programme's final evaluation. SP2ARK — Space Plasma Propulsion: Advancements, Research and Know-how — brought together bachelor's, master's, and doctoral students from all the world for an intensive week of frontier-research lectures and interdisciplinary study reguarding electric proulsion systems.</p>
             </div>
             <img class="cert-embed" src="awards/Screenshot%202026-05-17%20010929.png" alt="Fondazione Talento all'Opera Certificate">
           </div>
