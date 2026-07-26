@@ -299,16 +299,13 @@
       }
 
       .sidebar {
-        width: 100%;
         position: sticky;
         top: 0;
         z-index: 20;
-        margin: 0 -1.5rem;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
         padding: 0.6rem 1.5rem;
-        background: rgba(21, 16, 38, 0.92);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(164, 165, 166, 0.15);
+        background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
       }
 
       .sidebar-label {
