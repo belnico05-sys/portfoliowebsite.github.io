@@ -30,10 +30,11 @@
       font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
       color: var(--c-secondary);
       background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
+      scroll-behavior: smooth;
     }
 
     html, body {
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     a {
@@ -147,6 +148,7 @@
       padding-bottom: 5rem;
       border-bottom: 1px solid rgba(164, 165, 166, 0.08);
       margin-bottom: 5rem;
+      scroll-margin-top: 2rem;
     }
 
     .topic-section:last-child {
@@ -292,15 +294,37 @@
         gap: 2rem;
       }
 
+      .topic-section {
+        scroll-margin-top: 4.5rem;
+      }
+
       .sidebar {
         width: 100%;
-        position: static;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        margin: 0 -1.5rem;
+        padding: 0.6rem 1.5rem;
+        background: rgba(21, 16, 38, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(164, 165, 166, 0.15);
+      }
+
+      .sidebar-label {
+        display: none;
       }
 
       .sidebar-nav {
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0.5rem 1.25rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .sidebar-nav::-webkit-scrollbar {
+        display: none;
       }
 
       .sidebar-nav a {
@@ -308,6 +332,7 @@
         border-bottom: 2px solid transparent;
         padding-left: 0;
         padding-bottom: 0.2rem;
+        white-space: nowrap;
       }
 
       .sidebar-nav a:hover,
@@ -504,18 +529,33 @@
   </footer>
 
   <script>
-    const sections = document.querySelectorAll('.topic-section');
-    const navLinks = document.querySelectorAll('.sidebar-nav a');
+    const sections = [...document.querySelectorAll('.topic-section')];
+    const navLinks = [...document.querySelectorAll('.sidebar-nav a')];
+    const nav = document.querySelector('.sidebar-nav');
+    const linkFor = id => document.querySelector(`.sidebar-nav a[href="#${id}"]`);
+    const visible = new Set();
+    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+    function setActive() {
+      // topmost section in the trigger band; if none, keep one lit anyway: the last
+      // section we've scrolled to the start of, defaulting to the first at the top.
+      let current = sections.find(s => visible.has(s.id));
+      if (!current) {
+        const line = window.innerHeight * 0.25;
+        current = [...sections].reverse().find(s => s.getBoundingClientRect().top <= line) || sections[0];
+      }
+      const link = linkFor(current.id);
+      navLinks.forEach(l => l.classList.toggle('active', l === link));
+      // keep the active chip centered in the mobile top bar (without moving the page)
+      if (link && isMobile()) {
+        nav.scrollTo({ left: link.offsetLeft - nav.clientWidth / 2 + link.clientWidth / 2, behavior: 'smooth' });
+      }
+    }
 
     const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(link => link.classList.remove('active'));
-          const activeLink = document.querySelector(`.sidebar-nav a[href="#${entry.target.id}"]`);
-          if (activeLink) activeLink.classList.add('active');
-        }
-      });
-    }, { threshold: 0.25 });
+      entries.forEach(e => e.isIntersecting ? visible.add(e.target.id) : visible.delete(e.target.id));
+      setActive();
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
 
     sections.forEach(section => sectionObserver.observe(section));
   </script>
