@@ -4,656 +4,201 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nicola Bellucci</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z'/%3E%3Cpath d='M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0'/%3E%3C/svg%3E">
-  <style>
-    :root {
-      --c-primary: #ffffff;
-      --c-secondary: #A4A5A6;
-      --c-tertiary: rgba(164, 165, 166, 0.5);
-      --c-fourth: rgba(164, 165, 166, 0.3);
-      --c-accent: #A62929;
-      --v-space: 6rem;
-      --canvas-height: 80vh;
-      --f-weight: 600;
-      --border-radius: min(10vw, var(--v-space));
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      font-size: 16px;
-      line-height: 1.5;
-      font-family: Avenir, "Helvetica Neue", sans-serif;
-      color: var(--c-secondary);
-      box-sizing: border-box;
-      background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
-    }
-
-    html, body {
-      overflow-x: hidden;
-    }
-
-    a {
-      color: #A4A5A6;
-      text-decoration: underline;
-    }
-
-    main {
-      display: grid;
-      row-gap: 0;
-      grid-template-columns: 1fr 6fr 4fr 1fr;
-      grid-template-rows: auto auto auto auto auto auto;
-      grid-template-areas:
-        "header           header           header           header"
-        "bio              bio              bio              bio"
-        "education        education        education        education"
-        "associations     associations     associations     associations"
-        "projects-awards  projects-awards  projects-awards  projects-awards"
-        "footer           footer           footer           footer";
-    }
-
-    /* HEADER */
-    header {
-      grid-area: header;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3.5rem 8.333vw 1.5rem;
-      background: linear-gradient(rgba(0,5,20,0.52), rgba(0,5,20,0.52)),
-                  url(headerbackground.jpg) center top / cover fixed;
-    }
-
-    .site-title {
-      font-size: clamp(3.5rem, 6vw, 6.25rem);
-      font-weight: 700;
-      color: white;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .site-nav {
-      display: flex;
-      gap: clamp(1.25rem, 3vw, 3rem);
-      align-items: center;
-    }
-
-    .site-nav a {
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.9);
-      text-decoration: none;
-      letter-spacing: 0.03em;
-    }
-
-    .site-nav a:hover {
-      color: white;
-      text-decoration: underline;
-    }
-
-    /* BIO */
-    .bio-section {
-      grid-area: bio;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      padding: 3.5rem 8.333vw 4rem;
-    }
-
-    .bio-inner {
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-      width: 100%;
-    }
-
-    .bio-subtitle {
-      font-size: clamp(1rem, 1.8vw, 1.35rem);
-      font-weight: var(--f-weight);
-      color: rgba(255, 255, 255, 0.92);
-      line-height: 1.4;
-      margin-bottom: 1.25rem;
-      text-align: left;
-      width: 100%;
-    }
-
-    .profile-picture {
-      flex-shrink: 0;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .bio-text {
-      font-size: clamp(1rem, 1.5vw, 1.15rem);
-      line-height: 1.7;
-      color: var(--c-secondary);
-    }
-
-    /* LISTING SECTIONS */
-    .education-section     { grid-area: education; }
-    .associations-section  { grid-area: associations; }
-    .projects-awards-section { grid-area: projects-awards; }
-
-    .education-section,
-    .associations-section,
-    .projects-awards-section {
-      padding: 3rem 8.333vw;
-      border-top: 1px solid rgba(164, 165, 166, 0.08);
-    }
-
-    .section-label {
-      display: block;
-      text-align: left;
-      margin: 0 0 2rem 0;
-      font-size: clamp(2rem, 3.5vw, 3.25rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: white;
-      line-height: 1.1;
-    }
-
-    .work-entry {
-      display: grid;
-      grid-template-columns: 4fr 6fr;
-      gap: 2rem;
-      align-items: start;
-      padding: 1.5rem 2rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .work-entry:hover {
-      transform: scale(1.015);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-      background: rgba(255, 255, 255, 0.16);
-    }
-
-    a.work-entry {
-      text-decoration: none;
-      cursor: pointer;
-      color: inherit;
-    }
-
-    .work-entry--featured {
-      padding: 2.25rem 2.5rem;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .work-entry--featured .company-name {
-      font-size: clamp(1.6rem, 3vw, 3.5rem);
-    }
-
-    .work-entry--minor {
-      max-width: 55%;
-      margin: 0 auto;
-      padding: 0.9rem 1.4rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: none;
-    }
-
-    .work-entry--minor .company-name {
-      font-size: clamp(0.9rem, 1.4vw, 1.2rem);
-    }
-
-    .work-entry--minor .company-date {
-      font-size: 0.7rem;
-    }
-
-    .work-entry--minor .work-desc {
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
-
-    .work-entry--minor .org-logo {
-      width: 28px;
-      height: 28px;
-    }
-
-    .company-name {
-      font-size: clamp(1.3rem, 2.5vw, 2.75rem);
-      font-weight: 700;
-      color: var(--c-primary);
-      text-decoration: underline;
-      display: block;
-    }
-
-    .company-name.no-link {
-      text-decoration: none;
-      cursor: default;
-    }
-
-    .company-date {
-      font-size: 0.8rem;
-      color: rgba(164, 165, 166, 0.65);
-      margin-top: 0.15rem;
-      font-weight: 400;
-    }
-
-    .work-desc {
-      font-size: 1rem;
-      line-height: 1.65;
-    }
-
-    .work-desc p + p,
-    .work-desc ul + p {
-      margin-top: 1rem;
-    }
-
-    .work-desc p + ul {
-      margin-top: 0.5rem;
-    }
-
-    .work-desc strong {
-      font-weight: 700;
-      color: white;
-    }
-
-    .work-desc a {
-      color: inherit;
-      text-decoration: underline;
-    }
-
-    .work-desc ul {
-      margin: 0.5rem 0 0.5rem 1.25rem;
-    }
-
-    /* FOOTER */
-    footer {
-      grid-area: footer;
-      padding: 1.5rem 8.333vw;
-      border-top: 1px solid rgba(164, 165, 166, 0.15);
-      font-size: 0.875rem;
-    }
-
-    .credit {
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
-      color: rgba(164, 165, 166, 0.45);
-    }
-
-    .credit a {
-      color: inherit;
-      text-decoration: underline;
-    }
-
-    .work-entries {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    /* Org logos and initials */
-    .org-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .org-logo {
-      width: 44px;
-      height: 44px;
-      object-fit: contain;
-      border-radius: 6px;
-      flex-shrink: 0;
-      margin-top: 0.2rem;
-    }
-
-    .org-initial {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1rem;
-      color: white;
-      flex-shrink: 0;
-      margin-top: 0.2rem;
-    }
-
-    /* Interests tags */
-    .competency-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-
-    .competency-tag {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(164, 165, 166, 0.25);
-      border-radius: 999px;
-      padding: 0.5rem 1.5rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #A4A5A6;
-    }
-
-    /* PROJECT VIDEO */
-    .work-entry--project {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .project-body {
-      display: flex;
-      gap: 1.75rem;
-      align-items: flex-start;
-    }
-
-    .video-thumb--sm {
-      width: 155px;
-      flex-shrink: 0;
-    }
-
-    .cert-embed {
-      width: 320px;
-      flex-shrink: 0;
-      border-radius: 0.75rem;
-      display: block;
-      object-fit: contain;
-    }
-
-    .video-thumb {
-      display: block;
-      position: relative;
-      width: 315px;
-      aspect-ratio: 9 / 16;
-      border-radius: 1rem;
-      overflow: hidden;
-      text-decoration: none;
-    }
-
-    .video-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: opacity 0.2s;
-    }
-
-    .video-thumb:hover img {
-      opacity: 0.8;
-    }
-
-    .video-thumb-play {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    /* ── RESPONSIVE ─────────────────────────────────────────── */
-
-    /* Tablet (769px – 1024px) */
-    @media (max-width: 1024px) and (min-width: 769px) {
-      main {
-        grid-template-columns: 0.5fr 6fr 4fr 0.5fr;
-      }
-
-      .education-section,
-      .associations-section,
-      .projects-awards-section {
-        padding: 2rem 2rem;
-      }
-
-      header {
-        padding-left: 4vw;
-        padding-right: 4vw;
-      }
-
-      .site-nav {
-        gap: 1.25rem;
-      }
-    }
-
-    /* Mobile (≤ 768px) */
-    @media (max-width: 768px) {
-      main {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-          "header"
-          "bio"
-          "education"
-          "associations"
-          "projects-awards"
-          "footer";
-      }
-
-      header {
-        flex-direction: column;
-        gap: 1.25rem;
-        padding: 2rem 1.5rem 1.75rem;
-        background-attachment: scroll;
-      }
-
-      .intro {
-        padding: 0 1.5rem 2.5rem;
-        background-attachment: scroll;
-      }
-
-      .site-nav {
-        flex-wrap: wrap;
-        gap: 1rem 1.5rem;
-        justify-content: space-between;
-      }
-
-      .bio-section {
-        padding: 2.5rem 1.5rem 2.5rem;
-      }
-
-      .bio-inner {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-
-      .bio-subtitle {
-        margin-bottom: 0.75rem;
-        text-align: left;
-      }
-
-      .profile-picture {
-        width: 140px;
-        height: 140px;
-      }
-
-      .education-section,
-      .associations-section,
-      .projects-awards-section {
-        padding: 2rem 1.5rem;
-      }
-
-      .work-entry {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-      }
-
-      .company-name {
-        font-size: clamp(1.2rem, 5vw, 1.8rem);
-      }
-
-      .work-entry--minor {
-        max-width: 100%;
-      }
-
-      .project-body {
-        flex-direction: column;
-      }
-
-      .video-thumb--sm {
-        width: 100%;
-        max-width: 280px;
-      }
-
-      .cert-embed {
-        width: 100%;
-        max-width: 360px;
-      }
-
-      footer {
-        padding: 1.5rem;
-        text-align: center;
-      }
-    }
-
-    /* Scroll slide-in animation */
-    .education-section,
-    .associations-section,
-    .projects-awards-section,
-    .bio-section {
-      opacity: 0;
-      transform: translateX(-60px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
-
-    .section-visible {
-      opacity: 1 !important;
-      transform: translateX(0) !important;
-    }
-  </style>
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&family=Syne:wght@500;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+  <!-- Rocket and plane glyphs, drawn by the .deco SVGs below -->
+  <svg class="sprites" width="0" height="0" aria-hidden="true">
+    <defs>
+      <g id="rocket">
+        <path class="rocket-hull" d="M0,-26 C10,-15 11,0 8,15 L-8,15 C-11,0 -10,-15 0,-26 Z" stroke="currentColor" stroke-width="2"/>
+        <circle cx="0" cy="-6" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M-8,5 L-17,19 L-8,16 Z" fill="currentColor"/>
+        <path d="M8,5 L17,19 L8,16 Z" fill="currentColor"/>
+        <path d="M-4,18 L0,29 L4,18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </g>
+      <path id="plane" d="M0,-22 C3,-20 3.5,-12 3.5,-5 L22,6 L22,10 L3.5,4 L2.5,14 L9,19 L9,22 L0,19.5 L-9,22 L-9,19 L-2.5,14 L-3.5,4 L-22,10 L-22,6 L-3.5,-5 C-3.5,-12 -3,-20 0,-22 Z" fill="currentColor"/>
+    </defs>
+  </svg>
+
   <main>
-    <header>
-      <h1 class="site-title">Nicola Bellucci</h1>
+    <header class="hero shell">
+      <svg class="deco deco--red deco--hero-rocket" width="220" height="560" viewBox="0 0 220 560" aria-hidden="true">
+        <g transform="translate(170,60) rotate(20)">
+          <path class="trail" d="M0,58 C0,180 -70,240 -40,360 S40,500 10,600"/>
+          <path class="trail trail--dots" d="M-14,82 C-14,170 -80,232 -54,330"/>
+          <use href="#rocket" transform="scale(1.9)"/>
+        </g>
+      </svg>
+      <svg class="deco deco--blue deco--hero-plane" width="620" height="160" viewBox="0 0 620 160" aria-hidden="true">
+        <g transform="translate(580,50) rotate(78)">
+          <path class="trail" d="M-14,34 C-14,200 90,250 60,380 S-50,560 0,700"/>
+          <path class="trail trail--dashes" d="M14,34 C14,200 118,250 88,380 S-22,560 28,700"/>
+          <use href="#plane" transform="scale(2)"/>
+        </g>
+      </svg>
+
       <nav class="site-nav">
         <a href="#education">Higher Education</a>
         <a href="#associations">Associations and Competitions</a>
         <a href="#projects-awards">Projects and Awards</a>
         <a href="about.html">More About Me</a>
       </nav>
+
+      <div class="hero-main">
+        <!-- A few words on what this site is for: replace the bracketed text -->
+        <p class="hero-note">[A few words on what this site is about and why it exists.]</p>
+        <h1 class="site-title">Nicola<br>Bellucci</h1>
+      </div>
+      <p class="tagline">Aerospace engineering student in Pisa.</p>
     </header>
 
-    <section class="bio-section">
-      <p class="bio-subtitle">Aerospace engineering student in Pisa.</p>
-      <div class="bio-inner">
+    <section class="section bio-section shell reveal">
+      <svg class="deco deco--red deco--bio-rocket" width="200" height="520" viewBox="0 0 200 520" aria-hidden="true">
+        <g transform="translate(60,60) rotate(-16)">
+          <path class="trail" d="M0,58 C0,170 70,230 40,340 S-30,480 0,560"/>
+          <use href="#rocket" transform="scale(1.9)"/>
+        </g>
+      </svg>
+
+      <h2 class="section-label">01 — Hello there!</h2>
+      <p class="bio-statement">WHO I AM</p>
+      <div class="bio-row">
+        <p class="bio-text">I'm a passionate engineering student currently pursuing my BSc degree, eager to gain international experiences and meet incredible people thanks to the world of aerospace and aeronautics. Here you can find a brief overview of my academic and professional journey. Don't hesitate to reach out through social media or email, I'm always available for a chat or new projects!</p>
         <img class="profile-picture" src="profile.jpg" alt="Nicola Bellucci">
-        <p class="bio-text"><strong>HELLO THERE!</strong> I'm a passionate engineering student currently pursuing my BSc degree, eager to gain international experiences and meet incredible people thanks to the world of aerospace and aeronautics. Here you can find a brief overview of my academic and professional journey. Don't hesitate to reach out through social media or email, I'm always available for a chat or new projects!</p>
       </div>
     </section>
 
-    <section class="education-section" id="education">
-      <div class="section-label">Higher Education</div>
-      <div class="work-entries">
+    <section class="section degree-section shell reveal" id="education">
+      <svg class="deco deco--blue deco--edu-plane" width="760" height="200" viewBox="0 0 760 200" aria-hidden="true">
+        <g transform="translate(700,150) rotate(70)">
+          <path class="trail" d="M-14,34 C-14,220 -110,300 -60,460 S60,660 10,800"/>
+          <path class="trail trail--dashes" d="M14,34 C14,220 -82,300 -32,460 S88,660 38,800"/>
+          <use href="#plane" transform="scale(2)"/>
+        </g>
+      </svg>
 
-        <div class="work-entry work-entry--featured">
-          <div>
-            <div class="org-header">
-              <img src="logos/unipi.png" alt="University of Pisa" class="org-logo">
-              <div>
-                <span class="company-name no-link">University of Pisa</span>
-                <div class="company-date">2024–Present</div>
-              </div>
-            </div>
-          </div>
-          <div class="work-desc">
-            <p><strong>BSc Aerospace Engineering.</strong> Core curriculum covering aerodynamics, propulsion, and applied mechanics.</p>
-          </div>
+      <h2 class="section-label section-label--end">02 — Higher Education</h2>
+
+      <div class="degree">
+        <div class="degree-note">BSc in</div>
+        <h3 class="degree-title">Aerospace Engineering</h3>
+      </div>
+
+      <div class="degree-row">
+        <div class="degree-facts">
+          <img class="org-logo" src="logos/unipi.png" alt="University of Pisa">
+          <dl class="facts">
+            <dt>University</dt><dd>University of Pisa</dd>
+            <dt>Years</dt><dd>2024–Present</dd>
+          </dl>
         </div>
+        <p class="degree-desc">Core curriculum covering aerodynamics, propulsion, and applied mechanics.</p>
+      </div>
 
-        <div class="work-entry work-entry--minor">
-          <div>
-            <div class="org-header">
-              <img src="logos/santanna.png" alt="Scuola Superiore Sant'Anna" class="org-logo">
-              <div>
-                <span class="company-name no-link">S.S. Sant'Anna</span>
-                <div class="company-date">May 2025</div>
-              </div>
-            </div>
-          </div>
-          <div class="work-desc">
-            <p>Seasonal School <strong>SP2ARK</strong> — Space Plasma Propulsion: Advancements, Research and Know-how. Aerospace and astronautical engineering.</p>
-          </div>
+      <div class="degree-row">
+        <div class="degree-facts">
+          <img class="org-logo org-logo--padded" src="logos/santanna.png" alt="Scuola Superiore Sant'Anna">
+          <dl class="facts">
+            <dt>School</dt><dd>S.S. Sant'Anna</dd>
+            <dt>Date</dt><dd>May 2025</dd>
+          </dl>
         </div>
-
+        <p class="degree-desc">Seasonal School <strong>SP2ARK</strong> — Space Plasma Propulsion: Advancements, Research and Know-how. Aerospace and astronautical engineering.</p>
       </div>
     </section>
 
-    <section class="associations-section" id="associations">
-      <div class="section-label">Associations and Competitions</div>
-      <div class="work-entries">
+    <section class="section entries-section shell reveal" id="associations">
+      <svg class="deco deco--red deco--assoc-rocket" width="200" height="560" viewBox="0 0 200 560" aria-hidden="true">
+        <g transform="translate(150,60) rotate(14)">
+          <path class="trail" d="M0,58 C0,190 -80,250 -50,370 S30,520 -10,600"/>
+          <path class="trail trail--dots" d="M14,82 C14,170 -56,240 -36,330"/>
+          <use href="#rocket" transform="scale(1.9)"/>
+        </g>
+      </svg>
 
-        <a class="work-entry" href="https://pisa.euroavia.eu/" target="_blank" rel="noopener">
-          <div>
-            <div class="org-header">
-              <img src="logos/euroavia.svg" alt="EUROAVIA" class="org-logo">
-              <div>
-                <span class="company-name no-link">EUROAVIA Pisa</span>
-                <div class="company-date">Oct 2025–Present</div>
-              </div>
-            </div>
-          </div>
-          <div class="work-desc">
-            <p><strong>Local Board Member.</strong> European aerospace engineering student association.</p>
-          </div>
-        </a>
+      <h2 class="section-label">03 — Associations and Competitions</h2>
 
-        <a class="work-entry" href="https://leaningproject.it/" target="_blank" rel="noopener">
-          <div>
-            <div class="org-header">
-              <img src="logos/leaning.png" alt="Leaning Project" class="org-logo">
-              <div>
-                <span class="company-name no-link">Leaning Project</span>
-                <div class="company-date">Dec 2024–Present</div>
-              </div>
-            </div>
-          </div>
-          <div class="work-desc">
-            <p><strong>CAD Designer.</strong> UniPi's Cargo UAV team.</p>
-          </div>
-        </a>
+      <a class="entry" href="https://pisa.euroavia.eu/" target="_blank" rel="noopener">
+        <div class="entry-head title--poster">
+          <h3>EUROAVIA Pisa</h3>
+          <img class="org-logo" src="logos/euroavia.svg" alt="EUROAVIA">
+        </div>
+        <div class="entry-meta meta--caps">Oct 2025–Present</div>
+        <p class="entry-desc"><strong>Local Board Member.</strong> European aerospace engineering student association.</p>
+      </a>
 
+      <a class="entry entry--end" href="https://leaningproject.it/" target="_blank" rel="noopener">
+        <div class="entry-head title--serif">
+          <h3>Leaning Project</h3>
+          <img class="org-logo org-logo--round" src="logos/leaning.png" alt="Leaning Project">
+        </div>
+        <div class="entry-meta meta--hand">Dec 2024–Present</div>
+        <p class="entry-desc"><strong>CAD Designer.</strong> UniPi's Cargo UAV team.</p>
+      </a>
+    </section>
+
+    <section class="section entries-section shell reveal" id="projects-awards">
+      <svg class="deco deco--blue deco--projects-plane" width="820" height="200" viewBox="0 0 820 200" aria-hidden="true">
+        <g transform="translate(70,60) rotate(-72)">
+          <path class="trail" d="M-14,34 C-14,240 90,320 50,500 S-60,720 -10,880"/>
+          <path class="trail trail--dashes" d="M14,34 C14,240 118,320 78,500 S-32,720 18,880"/>
+          <use href="#plane" transform="scale(2)"/>
+        </g>
+      </svg>
+
+      <h2 class="section-label section-label--end">04 — Projects and Awards</h2>
+
+      <div class="entry">
+        <h3 class="entry-head title--hand">Drone Concept from Scratch</h3>
+        <div class="project-body">
+          <video class="project-video" controls playsinline preload="metadata">
+            <source src="https://michy.sytes.net/resources/videoDroneNic.mp4" type="video/mp4">
+          </video>
+          <p class="entry-desc">At the age of 19, for my high school graduation project, I challenged myself to design and build a quadcopter drone from scratch. My objective was to gain hands-on experience with a full engineering lifecycle. I realized the 3D CAD modeling and printed the frame via a PLA filament printer. Thanks to my brother, who took care of the electronics and helped me with the code, we were also able to design a custom joystick controller for manual piloting. Everything running on a finely coded Arduino Nano (but we experimented first with an Arduino Uno that you can see in this video of one of our first attempts) and a few other components necessary to make a PID algorithm effective, such as the classic MPU-6050. Ultimately, the prototype never flew due to motor synchronization issues and lack of resources. Despite the unsatisfactory outcome the project gave me a fundamental skill set in C++, electronics, and manufacturing.</p>
+        </div>
+      </div>
+
+      <div class="entry entry--end">
+        <h3 class="entry-head title--spaced">Fondazione Talento all'Opera Award</h3>
+        <div class="project-body">
+          <p class="entry-desc">In May 2025, following the SP2ARK Seasonal School at the Scuola Superiore Sant'Anna, I was awarded the <strong>Premio al Merito</strong> by the Fondazione Il Talento all'Opera — a Pisa-based philanthropic foundation with the mission of promoting academic excellence and equal opportunity in higher education. The prize is granted to at most three students per Seasonal School edition who achieve the highest score in the programme's final evaluation. SP2ARK — Space Plasma Propulsion: Advancements, Research and Know-how — brought together bachelor's, master's, and doctoral students from all the world for an intensive week of frontier-research lectures and interdisciplinary study regarding electric propulsion systems.</p>
+          <img class="cert-embed" src="awards/Screenshot%202026-05-17%20010929.png" alt="Fondazione Talento all'Opera Certificate">
+        </div>
       </div>
     </section>
 
-    <section class="projects-awards-section" id="projects-awards">
-      <div class="section-label">Projects and Awards</div>
-      <div class="work-entries">
+    <footer class="section contact shell">
+      <svg class="deco deco--red deco--contact-rocket" width="200" height="360" viewBox="0 0 200 360" aria-hidden="true">
+        <g transform="translate(70,60) rotate(-24)">
+          <path class="trail" d="M0,58 C0,160 60,210 30,300 S-20,380 10,440"/>
+          <use href="#rocket" transform="scale(1.9)"/>
+        </g>
+      </svg>
 
-        <div class="work-entry work-entry--project">
-          <span class="company-name no-link">Drone Concept from Scratch</span>
-          <div class="project-body">
-            <video class="video-thumb--sm" controls playsinline preload="metadata" style="border-radius:0.75rem;background:#000;">
-              <source src="https://michy.sytes.net/resources/videoDroneNic.mp4" type="video/mp4">
-            </video>
-            <div class="work-desc">
-              <p>At the age of 19, for my high school graduation project, I challenged myself to design and build a quadcopter drone from scratch. My objective was to gain hands-on experience with a full engineering lifecycle. I realized the 3D CAD modeling and printed the frame via a PLA filament printer. Thanks to my brother, who took care of the electronics and helped me with the code, we were also able to design a custom joystick controller for manual piloting. Everything running on a finely coded Arduino Nano (but we experimented first with an Arduino Uno that you can see in this video of one of our first attempts) and a few other components necessary to make a PID algorithm effective, such as the classic MPU-6050. Ultimately, the prototype never flew due to motor synchronization issues and lack of resources. Despite the unsatisfactory outcome the project gave me a fundamental skill set in C++, electronics, and manufacturing.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="work-entry work-entry--project">
-          <span class="company-name no-link">Fondazione Talento all'Opera Award</span>
-          <div class="project-body">
-            <div class="work-desc">
-              <p>In May 2025, following the SP2ARK Seasonal School at the Scuola Superiore Sant'Anna, I was awarded the <strong>Premio al Merito</strong> by the Fondazione Il Talento all'Opera — a Pisa-based philanthropic foundation with the mission of promoting academic excellence and equal opportunity in higher education. The prize is granted to at most three students per Seasonal School edition who achieve the highest score in the programme's final evaluation. SP2ARK — Space Plasma Propulsion: Advancements, Research and Know-how — brought together bachelor's, master's, and doctoral students from all the world for an intensive week of frontier-research lectures and interdisciplinary study regarding electric propulsion systems.</p>
-            </div>
-            <img class="cert-embed" src="awards/Screenshot%202026-05-17%20010929.png" alt="Fondazione Talento all'Opera Certificate">
-          </div>
-        </div>
-
+      <div class="contact-head">
+        <div class="contact-hand">write me!</div>
+        <h2 class="section-label">05 — Contacts</h2>
       </div>
-    </section>
 
-    <footer>
-      <p>You can follow me on <a href="https://www.instagram.com/bel.nico.05/">Instagram</a> and <a href="https://www.linkedin.com/in/nicola-bellucci-a7a843324/">LinkedIn</a>. Feel free to contact me via <a href="mailto: belnico05@gmail.com">email</a>.
-      For a formal presentation here are my <a href="cv/Nicola-Bellucci-CV.pdf" target="_blank" rel="noopener"> Curriculum Vitae</a> or my <a href="cv/Nicola-Bellucci-Europass.pdf" target="_blank" rel="noopener">Europass CV</a> (PDF).</p>
-      <p class="credit">Built with Claude Code</p>
+      <a class="contact-email" href="mailto:belnico05@gmail.com">belnico05@gmail.com</a>
+
+      <div class="footer-bar">
+        <span>© 2026 Nicola Bellucci — Built with Claude Code</span>
+        <nav class="social-nav" aria-label="Social">
+          <a href="https://www.instagram.com/bel.nico.05/">Instagram</a>
+          <a href="https://www.linkedin.com/in/nicola-bellucci-a7a843324/">LinkedIn</a>
+          <a href="cv/Nicola-Bellucci-CV.pdf" target="_blank" rel="noopener">Curriculum Vitae</a>
+          <a href="cv/Nicola-Bellucci-Europass.pdf" target="_blank" rel="noopener">Europass CV</a>
+        </nav>
+      </div>
     </footer>
   </main>
   <script>
@@ -663,9 +208,7 @@
       });
     }, { threshold: 0.08 });
 
-    document.querySelectorAll(
-      '.bio-section, .education-section, .associations-section, .projects-awards-section'
-    ).forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>

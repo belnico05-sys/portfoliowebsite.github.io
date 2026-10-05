@@ -4,366 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>More About Me — Nicola Bellucci</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z'/%3E%3Cpath d='M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0'/%3E%3C/svg%3E">
-  <style>
-    :root {
-      --c-primary: #ffffff;
-      --c-secondary: #A4A5A6;
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      font-size: 16px;
-      line-height: 1.5;
-      font-family: Avenir, "Helvetica Neue", sans-serif;
-      color: var(--c-secondary);
-      background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
-      scroll-behavior: smooth;
-    }
-
-    html, body {
-      overflow-x: clip;
-    }
-
-    a {
-      color: #A4A5A6;
-      text-decoration: underline;
-    }
-
-    /* HEADER */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3.5rem 8.333vw 1.5rem;
-      background: linear-gradient(rgba(0,5,20,0.52), rgba(0,5,20,0.52)),
-                  url(headerbackground.jpg) center top / cover fixed;
-    }
-
-    .site-title {
-      font-size: clamp(3.5rem, 6vw, 6.25rem);
-      font-weight: 700;
-      color: white;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      text-decoration: none;
-    }
-
-    .site-title:hover {
-      color: white;
-    }
-
-    .site-nav {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .site-nav a {
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.9);
-      text-decoration: none;
-      letter-spacing: 0.03em;
-    }
-
-    .site-nav a:hover {
-      color: white;
-      text-decoration: underline;
-    }
-
-    .site-nav a.active {
-      color: white;
-      text-decoration: underline;
-    }
-
-    /* MAIN LAYOUT */
-    .about-layout {
-      display: flex;
-      gap: 5rem;
-      padding: 4rem 8.333vw;
-      align-items: flex-start;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: 180px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 3rem;
-    }
-
-    .sidebar-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(164, 165, 166, 0.45);
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    .sidebar-nav a {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: rgba(164, 165, 166, 0.6);
-      text-decoration: none;
-      padding: 0.35rem 0 0.35rem 0.875rem;
-      border-left: 2px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
-    }
-
-    .sidebar-nav a:hover,
-    .sidebar-nav a.active {
-      color: white;
-      border-left-color: white;
-    }
-
-    /* CONTENT */
-    .about-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .topic-section {
-      padding-bottom: 5rem;
-      border-bottom: 1px solid rgba(164, 165, 166, 0.08);
-      margin-bottom: 5rem;
-      scroll-margin-top: 2rem;
-    }
-
-    .topic-section:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 2rem;
-    }
-
-    .topic-heading {
-      font-size: clamp(2rem, 3.5vw, 3.25rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: white;
-      line-height: 1.1;
-      margin-bottom: 0.5rem;
-    }
-
-    .topic-subtitle {
-      font-size: 0.875rem;
-      color: rgba(164, 165, 166, 0.55);
-      margin-bottom: 2.5rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-    }
-
-    .topic-context {
-      font-size: 1rem;
-      line-height: 1.75;
-      color: var(--c-secondary);
-      margin-bottom: 2.5rem;
-      max-width: 68ch;
-    }
-
-    /* Images */
-    .topic-images {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-      flex-wrap: wrap;
-    }
-
-    .topic-images img {
-      border-radius: 0.75rem;
-      object-fit: cover;
-      object-position: center top;
-      flex: 1;
-      min-width: 180px;
-      height: 260px;
-    }
-
-    /* Book references */
-    .books-heading {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(164, 165, 166, 0.45);
-      margin-bottom: 1rem;
-    }
-
-    .books-grid {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .book-card {
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(164, 165, 166, 0.12);
-      border-radius: 0.75rem;
-      padding: 0.625rem;
-      display: inline-flex;
-      gap: 0.75rem;
-      align-items: flex-start;
-      transition: background 0.2s;
-    }
-
-    .book-card:hover {
-      background: rgba(255, 255, 255, 0.11);
-    }
-
-    .book-cover {
-      width: 90px;
-      height: 126px;
-      border-radius: 4px;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-
-    .book-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    .book-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: white;
-      line-height: 1.3;
-    }
-
-    .book-author {
-      font-size: 0.8rem;
-      color: rgba(164, 165, 166, 0.6);
-    }
-
-    /* Footer */
-    footer {
-      padding: 1.5rem 8.333vw;
-      border-top: 1px solid rgba(164, 165, 166, 0.15);
-      font-size: 0.875rem;
-    }
-
-    .credit {
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
-      color: rgba(164, 165, 166, 0.45);
-    }
-
-    .credit a {
-      color: inherit;
-      text-decoration: underline;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        gap: 1.25rem;
-        padding: 2rem 1.5rem 1.75rem;
-        background-attachment: scroll;
-      }
-
-      .site-nav {
-        flex-wrap: wrap;
-        gap: 1rem 1.5rem;
-      }
-
-      .about-layout {
-        flex-direction: column;
-        padding: 2rem 1.5rem;
-        gap: 2rem;
-      }
-
-      .topic-section {
-        scroll-margin-top: 4.5rem;
-      }
-
-      .sidebar {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        padding: 0.6rem 1.5rem;
-        background: linear-gradient(160deg, #151026 0%, #172626 55%, #151026 100%) fixed;
-      }
-
-      .sidebar-label {
-        display: none;
-      }
-
-      .sidebar-nav {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: 0.5rem 1.25rem;
-        overflow-x: auto;
-        scrollbar-width: none;
-      }
-
-      .sidebar-nav::-webkit-scrollbar {
-        display: none;
-      }
-
-      .sidebar-nav a {
-        border-left: none;
-        border-bottom: 2px solid transparent;
-        padding-left: 0;
-        padding-bottom: 0.2rem;
-        white-space: nowrap;
-      }
-
-      .sidebar-nav a:hover,
-      .sidebar-nav a.active {
-        border-left-color: transparent;
-        border-bottom-color: white;
-      }
-
-      .topic-images {
-        flex-direction: column;
-      }
-
-      .topic-images img {
-        min-width: 0;
-        width: 100%;
-        height: 220px;
-      }
-
-      .book-card {
-        width: 100%;
-      }
-
-      footer {
-        padding: 1.5rem;
-        text-align: center;
-      }
-    }
-  </style>
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&family=Syne:wght@500;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <a href="index.html" class="site-title">Nicola Bellucci</a>
+  <!-- Rocket and plane glyphs, drawn by the .deco SVGs below -->
+  <svg class="sprites" width="0" height="0" aria-hidden="true">
+    <defs>
+      <g id="rocket">
+        <path class="rocket-hull" d="M0,-26 C10,-15 11,0 8,15 L-8,15 C-11,0 -10,-15 0,-26 Z" stroke="currentColor" stroke-width="2"/>
+        <circle cx="0" cy="-6" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M-8,5 L-17,19 L-8,16 Z" fill="currentColor"/>
+        <path d="M8,5 L17,19 L8,16 Z" fill="currentColor"/>
+        <path d="M-4,18 L0,29 L4,18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </g>
+      <path id="plane" d="M0,-22 C3,-20 3.5,-12 3.5,-5 L22,6 L22,10 L3.5,4 L2.5,14 L9,19 L9,22 L0,19.5 L-9,22 L-9,19 L-2.5,14 L-3.5,4 L-22,10 L-22,6 L-3.5,-5 C-3.5,-12 -3,-20 0,-22 Z" fill="currentColor"/>
+    </defs>
+  </svg>
+
+  <header class="page-head shell">
+    <svg class="deco deco--blue deco--page-plane" width="620" height="160" viewBox="0 0 620 160" aria-hidden="true">
+      <g transform="translate(580,50) rotate(78)">
+        <path class="trail" d="M-14,34 C-14,200 90,250 60,380 S-50,560 0,700"/>
+        <path class="trail trail--dashes" d="M14,34 C14,200 118,250 88,380 S-22,560 28,700"/>
+        <use href="#plane" transform="scale(2)"/>
+      </g>
+    </svg>
+
     <nav class="site-nav">
       <a href="index.html#education">Higher Education</a>
       <a href="index.html#associations">Associations and Competitions</a>
       <a href="index.html#projects-awards">Projects and Awards</a>
       <a href="about.html" class="active">More About Me</a>
     </nav>
+
+    <h1 class="page-title">More About Me</h1>
   </header>
 
-  <div class="about-layout">
+  <div class="about-layout shell">
     <aside class="sidebar">
       <div class="sidebar-label">Topics</div>
       <nav class="sidebar-nav">
@@ -380,12 +63,12 @@
 
       <!-- RUGBY -->
       <section class="topic-section" id="rugby">
-        <h2 class="topic-heading">Rugby</h2>
-        <div class="topic-subtitle">ASD Rugby Gubbio 1984 &middot; 2016&ndash;2025 &middot; Second row &amp; Flanker</div>
+        <h2 class="topic-heading title--poster">Rugby</h2>
+        <div class="topic-subtitle meta--caps">ASD Rugby Gubbio 1984 &middot; 2016&ndash;2025 &middot; Second row &amp; Flanker</div>
 
         <div class="topic-images">
           <img src="rugby%20pictures/manofthematch.jpeg" alt="Man of the Match">
-          <img src="rugby%20pictures/rugby-gubbio.png" alt="ASD Rugby Gubbio 1984" style="object-fit:contain;background:rgba(255,255,255,0.04);">
+          <img src="rugby%20pictures/rugby-gubbio.png" alt="ASD Rugby Gubbio 1984" class="topic-logo">
           <img src="rugby%20pictures/DSC07235.jpg" alt="Rugby photo">
         </div>
 
@@ -405,8 +88,8 @@
 
       <!-- FINANCE -->
       <section class="topic-section" id="finance">
-        <h2 class="topic-heading">Finance</h2>
-        <div class="topic-subtitle">Personal Finance &amp; Investing &middot; Since 2021</div>
+        <h2 class="topic-heading title--serif">Finance</h2>
+        <div class="topic-subtitle meta--hand">Personal Finance &amp; Investing &middot; Since 2021</div>
 
         <p class="topic-context">
           Since 2021, I have cultivated my interests in personal finance, transitioning from empirical learning via virtual brokers to managing real capital. Moving away from speculative trading, I anchored my growth in classical investment literature and macroeconomic study. Today, I focus on a long-term, highly diversified, and conservative investment strategy focused on wealth preservation and risk mitigation. In this last years I grew my financial literacy and developed strategic patience, emotional resilience against market volatility, and an analytical, self-driven approach to data-backed decision-making.
@@ -433,8 +116,8 @@
 
       <!-- ENTREPRENEURSHIP -->
       <section class="topic-section" id="entrepreneurship">
-        <h2 class="topic-heading">Entrepreneurship</h2>
-        <div class="topic-subtitle">Start-ups &amp; Innovation</div>
+        <h2 class="topic-heading title--hand">Entrepreneurship</h2>
+        <div class="topic-subtitle meta--sans">Start-ups &amp; Innovation</div>
 
         <p class="topic-context">
           At 18, I launched a dropshipping e-commerce platform, that rapidly thought me what failing feels like. This initial venture sparked a continuous focus on the startup ecosystem, specifically in identifying unaddressed problems and developing scalable solutions, but that's not it. I like people, and proprably what I prefer most about entrepeneruship is that it gives you the chance to realize meaningful and impactful team-realized projects for all the world to enjoy. In this optic I guess the aerospace sector and my degree will mostly act as the main springboard for future ventures.        </p>
@@ -453,8 +136,14 @@
 
       <!-- MUSIC -->
       <section class="topic-section" id="music">
-        <h2 class="topic-heading">Music</h2>
-        <div class="topic-subtitle">Listening &amp; Playing</div>
+        <svg class="deco deco--red deco--music-rocket" width="200" height="520" viewBox="0 0 200 520" aria-hidden="true">
+          <g transform="translate(60,60) rotate(-16)">
+            <path class="trail" d="M0,58 C0,170 70,230 40,340 S-30,480 0,560"/>
+            <use href="#rocket" transform="scale(1.9)"/>
+          </g>
+        </svg>
+        <h2 class="topic-heading title--spaced">Music</h2>
+        <div class="topic-subtitle meta--caps">Listening &amp; Playing</div>
 
         <p class="topic-context">
           Pursued as a personal passion, my journey with the electric guitar has been a vital catalyst for my creativity and imagination. This artistic outlet uniquely intersected with my engineering studies, particularly within signal analysis, giving me the fascinating perspective of scientifically breaking down the acoustic and wave principles I had previously experienced intuitively as a musician. To this day, playing the guitar is more a hobby than anything else, but it's still a hell of a way to spend my time and I definitely see myself playing once in a while in my future.    </p>
@@ -463,8 +152,8 @@
 
       <!-- PHILOSOPHY -->
       <section class="topic-section" id="philosophy">
-        <h2 class="topic-heading">Philosophy</h2>
-        <div class="topic-subtitle">Ideas &amp; Engineers'responsibility to the world</div>
+        <h2 class="topic-heading title--terminal">Philosophy</h2>
+        <div class="topic-subtitle meta--serif">Ideas &amp; Engineers'responsibility to the world</div>
 
         <p class="topic-context">
           During my final year of scientific high school, studying Latin literature, I got close to the writings of Seneca and a few Epicurean texts. Those introduced me to the foundational principles of Stoic philosophy. Aligning with their ethical and moral values, I integrated these concepts into my academic pursuits and athletic discipline. Following graduation, I deepened this knowledge through the independent study of classical texts and I still let them guide me through every single day. <br> A few wise words about life: Epistulae ad Lucilium n.32 - n.37 - n.39 - n.64 - n.65 .  </p>
@@ -497,8 +186,8 @@
 
       <!-- FAILURES -->
       <section class="topic-section" id="failures">
-        <h2 class="topic-heading">Failures</h2>
-        <div class="topic-subtitle">Experiences and Life Lessons</div>
+        <h2 class="topic-heading title--giant">Failures</h2>
+        <div class="topic-subtitle meta--hand">Experiences and Life Lessons</div>
 
         <p class="topic-context">
           Be aware, the following are just the main ones. Life is full of failures, and in my understanding, growing up also means being ready when they come, so that you can stand up and keep pushing towards your goals. <br>
@@ -512,19 +201,40 @@
     </div>
   </div>
 
-  <footer>
-    <p>You can follow me on <a href="https://www.instagram.com/bel.nico.05/">Instagram</a> and <a href="https://www.linkedin.com/in/nicola-bellucci-a7a843324/">LinkedIn</a>. Feel free to contact me via <a href="mailto:belnico05@gmail.com">email</a>.
-      For a formal presentation here are my<a href="cv/Nicola-Bellucci-CV.pdf" target="_blank" rel="noopener"> Curriculum Vitae</a> or my <a href="cv/Nicola-Bellucci-Europass.pdf" target="_blank" rel="noopener">Europass CV</a> (PDF).</p>
-    <p class="credit">Built with Claude Code</p>
+  <footer class="section contact shell">
+    <svg class="deco deco--red deco--contact-rocket" width="200" height="360" viewBox="0 0 200 360" aria-hidden="true">
+      <g transform="translate(70,60) rotate(-24)">
+        <path class="trail" d="M0,58 C0,160 60,210 30,300 S-20,380 10,440"/>
+        <use href="#rocket" transform="scale(1.9)"/>
+      </g>
+    </svg>
+
+    <div class="contact-head">
+      <div class="contact-hand">write me!</div>
+      <h2 class="section-label">Contacts</h2>
+    </div>
+
+    <a class="contact-email" href="mailto:belnico05@gmail.com">belnico05@gmail.com</a>
+
+    <div class="footer-bar">
+      <span>© 2026 Nicola Bellucci — Built with Claude Code</span>
+      <nav class="social-nav" aria-label="Social">
+        <a href="https://www.instagram.com/bel.nico.05/">Instagram</a>
+        <a href="https://www.linkedin.com/in/nicola-bellucci-a7a843324/">LinkedIn</a>
+        <a href="cv/Nicola-Bellucci-CV.pdf" target="_blank" rel="noopener">Curriculum Vitae</a>
+        <a href="cv/Nicola-Bellucci-Europass.pdf" target="_blank" rel="noopener">Europass CV</a>
+      </nav>
+    </div>
   </footer>
 
   <script>
+    const MOBILE_BP = 768; // px, same as the mobile breakpoint in styles.css
     const sections = [...document.querySelectorAll('.topic-section')];
     const navLinks = [...document.querySelectorAll('.sidebar-nav a')];
     const nav = document.querySelector('.sidebar-nav');
     const linkFor = id => document.querySelector(`.sidebar-nav a[href="#${id}"]`);
     const visible = new Set();
-    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+    const isMobile = () => window.matchMedia(`(max-width: ${MOBILE_BP}px)`).matches;
 
     function setActive() {
       // topmost section in the trigger band; if none, keep one lit anyway: the last

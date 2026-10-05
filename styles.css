@@ -1,0 +1,930 @@
+/* Shared by index.html and about.html.
+
+   1  TOKENS       :root: every colour, type size and timing
+   2  BASE         reset, html, links
+   3  LAYOUT       .shell, .section, section labels, rocket and plane drawings
+   4  CHROME       masthead, site nav, home hero, contact footer
+   5  HOME         index.html
+   6  ABOUT        about.html
+   7  RESPONSIVE   tablet 769–1024px, mobile ≤768px
+   8  MOTION       scroll reveal
+*/
+
+/* ── 1 TOKENS ───────────────────────────────────────────────────────────
+
+   A restyle should only need this block. In order of impact:
+     palette   --c-ink, --c-bg, --c-red, --c-blue
+     type      --f-*, then the --t-* scale
+     space     --gutter, --section-pad
+     motion    --dur-*, --reveal-shift
+   Rules below never hardcode a colour, font size or duration.
+   The fonts are loaded from Google Fonts by a <link> in each page's <head>. */
+
+:root {
+  /* Palette */
+  --c-ink: #111111;                         /* text, rules */
+  --c-ink-soft: rgba(17, 17, 17, 0.6);      /* field names, inactive links */
+  --c-bg: #FFFFFF;
+  --c-red: #D7261E;                         /* rockets, hover, highlights */
+  --c-blue: #1D3FD6;                        /* planes, handwritten notes */
+  --c-video-bg: #000000;
+
+  /* Type */
+  --f-mono: "Space Mono", monospace;        /* base: labels, nav, running text */
+  --f-poster: "Anton", sans-serif;          /* the name, poster titles */
+  --f-serif: "Instrument Serif", serif;     /* always italic */
+  --f-hand: "Caveat", cursive;              /* handwritten notes */
+  --f-sans: "Syne", sans-serif;
+  --t-hero: clamp(84px, 17vw, 270px);       /* the name on the home page */
+  --t-degree: clamp(56px, 10vw, 168px);
+  --t-write: clamp(64px, 9vw, 140px);       /* "write me!" */
+  --t-statement: clamp(40px, 6.4vw, 104px); /* "WHO I AM" */
+  --t-email: clamp(36px, 6vw, 96px);
+  --t-poster: clamp(56px, 7vw, 108px);      /* entry titles, one size per style */
+  --t-hand: clamp(48px, 5.6vw, 84px);
+  --t-serif: clamp(36px, 4vw, 60px);
+  --t-spaced: clamp(20px, 2.2vw, 30px);
+  --t-giant: clamp(72px, 12vw, 190px);      /* about page title, last topic */
+  --t-tagline: clamp(24px, 2.4vw, 34px);
+  --t-note: 34px;                           /* handwritten note above a title */
+  --t-note-sm: 24px;                        /* handwritten dates */
+  --t-meta-serif: 20px;
+  --t-terminal: 18px;
+  --t-facts: 16px;                          /* degree fact list */
+  --t-lead: 15px;                           /* Syne paragraphs */
+  --t-body: 13px;                           /* mono running text */
+  --t-small: 12px;                          /* nav, sidebar, book titles */
+  --t-label: 11px;                          /* section labels, footer, dates */
+
+  /* Space */
+  --gutter: clamp(20px, 4vw, 64px);         /* side margin of every .shell band */
+  --section-pad: 72px;                      /* top of a .section */
+  --section-pad-end: 96px;                  /* bottom of a .section */
+  --page-max: 1400px;                       /* about.html layout width */
+
+  /* Motion */
+  --ease: ease;
+  --dur-fast: 0.2s;
+  --dur-reveal: 0.65s;
+  --reveal-shift: -60px;
+}
+
+/* ── 2 BASE ─────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--f-mono);
+  color: var(--c-ink);
+  background: var(--c-bg);
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overflow-x: clip;
+}
+
+/* headings take all their type from their class */
+h1, h2, h3 {
+  font: inherit;
+}
+
+a {
+  color: var(--c-ink);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--c-red);
+}
+
+/* ── 3 LAYOUT ───────────────────────────────────────────────────────── */
+
+/* Side margins of every full-width band. Change --gutter, not this rule. */
+.shell {
+  padding-inline: var(--gutter);
+}
+
+/* A band of the page: a column of blocks, each pushed left or right */
+.section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--section-pad) var(--section-pad-end);
+}
+
+/* "01 — Who I am": the small numbered heading of every section */
+.section-label {
+  font-size: var(--t-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.section-label--end {
+  align-self: flex-end;
+}
+
+/* The mockup's six title styles, used by home entries and about topics,
+   and the date and subtitle styles that go with them */
+.title--poster {
+  font-family: var(--f-poster);
+  font-size: var(--t-poster);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.title--serif {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: var(--t-serif);
+  line-height: 1;
+}
+
+.title--hand {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: var(--t-hand);
+  line-height: 0.9;
+  color: var(--c-red);
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+
+.title--spaced {
+  font-family: var(--f-sans);
+  font-weight: 800;
+  font-size: var(--t-spaced);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.title--terminal {
+  font-weight: 700;
+  font-size: var(--t-terminal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title--terminal::before { content: "> "; }
+.title--terminal::after  { content: "_"; }
+
+.title--giant {
+  font-family: var(--f-poster);
+  font-size: var(--t-giant);
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.meta--caps {
+  font-size: var(--t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.meta--hand {
+  font-family: var(--f-hand);
+  font-size: var(--t-note-sm);
+  color: var(--c-blue);
+}
+
+.meta--sans {
+  font-family: var(--f-sans);
+  font-weight: 500;
+  font-size: var(--t-body);
+}
+
+.meta--serif {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: var(--t-meta-serif);
+}
+
+/* Rockets and planes drawn behind the content. The glyphs are <defs> at the
+   top of each page; a .deco--* placement class positions each drawing. */
+.sprites {
+  position: absolute;
+}
+
+.deco {
+  position: absolute;
+  z-index: -1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.deco--red  { color: var(--c-red); }
+.deco--blue { color: var(--c-blue); }
+
+.rocket-hull {
+  fill: var(--c-bg);
+}
+
+.trail {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.trail--dots   { stroke-width: 1.2; stroke-dasharray: 3 8; }
+.trail--dashes { stroke-width: 1.6; stroke-dasharray: 6 10; }
+
+.deco--hero-rocket    { left: 4%;   top: 170px; }
+.deco--hero-plane     { left: 28%;  top: 120px; }
+.deco--bio-rocket     { left: 50%;  top: 40px; }
+.deco--edu-plane      { left: 0;    top: 0; }
+.deco--assoc-rocket   { left: 52%;  top: 120px; }
+.deco--projects-plane { left: 20%;  bottom: -100px; }
+.deco--contact-rocket { right: 30%; top: -80px; }    /* nose in the gap above the block */
+.deco--page-plane     { left: -16%; top: 30px; }
+.deco--music-rocket   { right: 0;   top: 0; }
+
+/* ── 4 CHROME ───────────────────────────────────────────────────────── */
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 28px;
+  font-size: var(--t-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-nav a {
+  padding-block: 12px;
+}
+
+.site-nav a.active {
+  color: var(--c-red);
+}
+
+/* Home page header: the nav on top, the name pushed to the bottom right */
+.hero {
+  position: relative;
+  min-height: 900px;
+  padding-block: 32px 64px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* the note on the left of the name, both sitting on the same bottom line */
+.hero-main {
+  margin-top: auto;
+  padding-top: 120px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 48px;
+}
+
+.hero-note {
+  width: 300px;
+  min-width: 180px;
+  flex-shrink: 1;
+  font-size: var(--t-body);
+  line-height: 1.75;
+}
+
+.site-title {
+  text-align: right;
+  font-family: var(--f-poster);
+  font-size: var(--t-hero);
+  line-height: 0.84;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.tagline {
+  max-width: 400px;
+  margin-top: 48px;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: var(--t-tagline);
+  line-height: 1.15;
+}
+
+/* about.html header: the nav, then the page title on the right */
+.page-head {
+  position: relative;
+  padding-block: 32px 48px;
+}
+
+.page-title {
+  padding-top: 80px;
+  text-align: right;
+  font-family: var(--f-poster);
+  font-size: var(--t-giant);
+  line-height: 0.84;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* Footer: the contact block */
+.contact {
+  padding-bottom: 40px;
+  gap: 48px;
+}
+
+.contact-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+}
+
+.contact-hand {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: var(--t-write);
+  line-height: 0.8;
+  color: var(--c-blue);
+}
+
+.contact-email {
+  align-self: flex-end;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: right;
+  font-family: var(--f-poster);
+  font-size: var(--t-email);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.footer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--c-ink);
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.social-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+}
+
+.social-nav a {
+  padding-block: 12px;
+}
+
+/* ── 5 HOME ─────────────────────────────────────────────────────────── */
+
+/* 01 Who I am */
+.bio-section {
+  gap: 48px;
+}
+
+.bio-statement {
+  max-width: 960px;
+  font-family: var(--f-sans);
+  font-weight: 800;
+  font-size: var(--t-statement);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* under the statement: the text on the left, the photo at the far right */
+.bio-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.profile-picture {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.bio-text {
+  max-width: 340px;
+  font-size: var(--t-body);
+  line-height: 1.75;
+}
+
+/* 02 Higher education: the degree, then one row of facts per school */
+.degree-section {
+  gap: 40px;
+}
+
+.degree {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.degree-note {
+  font-family: var(--f-hand);
+  font-size: var(--t-note);
+  color: var(--c-blue);
+}
+
+.degree-title {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: var(--t-degree);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.degree-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.degree-facts {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: 10%;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 14px 40px;
+  font-size: var(--t-facts);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.facts dt {
+  color: var(--c-ink-soft);
+}
+
+.degree-desc {
+  max-width: 420px;
+  margin-left: auto;                        /* stays right when the row wraps */
+  text-align: right;
+  font-family: var(--f-sans);
+  font-weight: 500;
+  font-size: var(--t-lead);
+  line-height: 1.5;
+}
+
+.degree-desc strong {
+  font-family: var(--f-poster);
+  font-weight: 400;
+  font-size: var(--t-body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-red);
+}
+
+.org-logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* artwork inside a transparent margin (it fills 68% of the file):
+   scale it up to match logos that fill theirs, layout box unchanged */
+.org-logo--padded {
+  transform: scale(1.47);
+}
+
+/* 03–04 Entries span the width and alternate sides (.entry--end goes
+   right). Each title takes one of the .title--* styles. */
+.entries-section {
+  gap: 56px;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.entry--end {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* the title, with the logo (if any) right beside it, on the inner side */
+.entry-head {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.entry--end .entry-head {
+  flex-direction: row-reverse;
+}
+
+/* every logo as tall as 80% of the poster title line, the tallest one */
+.entry-head .org-logo {
+  width: auto;
+  height: calc(var(--t-poster) * 0.9 * 0.8);
+}
+
+/* a round logo looks smaller than a wide one at the same height */
+.entry-head .org-logo--round {
+  height: var(--t-poster);
+}
+
+.entry-meta {
+  margin-top: 10px;
+}
+
+.entry-desc {
+  max-width: 340px;
+  margin-top: 16px;
+  font-size: var(--t-body);
+  line-height: 1.75;
+}
+
+/* Projects: media beside a text that fills the rest of the row, left-aligned on either side */
+.project-body {
+  align-self: stretch;
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  margin-top: 24px;
+  text-align: left;
+}
+
+.project-body .entry-desc {
+  flex: 1;
+  max-width: none;
+  margin-top: 0;
+}
+
+.project-video {
+  width: 155px;
+  flex-shrink: 0;
+  background: var(--c-video-bg);
+}
+
+.cert-embed {
+  width: 320px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
+
+/* ── 6 ABOUT ────────────────────────────────────────────────────────── */
+
+.about-layout {
+  display: flex;
+  gap: 5rem;
+  padding-block: 4rem;
+  align-items: flex-start;
+  max-width: var(--page-max);
+  margin: 0 auto;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 180px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 3rem;
+}
+
+.sidebar-label {
+  font-size: var(--t-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  margin-bottom: 1rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-nav a {
+  font-size: var(--t-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  padding: 0.35rem 0 0.35rem 0.875rem;
+  border-left: 2px solid transparent;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  color: var(--c-red);
+  border-left-color: var(--c-red);
+}
+
+/* Content */
+.about-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Each topic: a .title--* heading and a .meta--* subtitle */
+.topic-section {
+  position: relative;
+  padding-bottom: var(--section-pad-end);
+  scroll-margin-top: 2rem;
+}
+
+.topic-section:last-child {
+  padding-bottom: 0;
+}
+
+.topic-subtitle {
+  margin-top: 10px;
+  margin-bottom: 2.5rem;
+}
+
+.topic-context {
+  font-size: var(--t-body);
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  max-width: 68ch;
+}
+
+/* Images */
+.topic-images {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.topic-images img {
+  object-fit: cover;
+  object-position: center top;
+  flex: 1;
+  min-width: 180px;
+  height: 260px;
+}
+
+/* a logo among the photos: shown whole */
+.topic-images .topic-logo {
+  object-fit: contain;
+}
+
+/* Book references */
+.books-heading {
+  font-size: var(--t-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  margin-bottom: 1rem;
+}
+
+.books-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.book-card {
+  display: inline-flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.book-cover {
+  width: 90px;
+  height: 126px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.book-title {
+  font-size: var(--t-small);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.book-author {
+  font-size: var(--t-label);
+  color: var(--c-ink-soft);
+}
+
+/* ── 7 RESPONSIVE ───────────────────────────────────────────────────────
+
+   Two breakpoints, used everywhere:
+     tablet   769–1024px
+     mobile   ≤768px  (also MOBILE_BP in about.html's script: keep in sync)
+   Most of the type and the gutter scale on their own through clamp(). */
+
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* keep the plane off the right-aligned section label, the rocket between bio text and photo */
+  .deco--edu-plane {
+    left: -80px;
+  }
+
+  .deco--bio-rocket {
+    left: 38%;
+  }
+
+  /* narrower, so it stays clear of the hero rocket trail */
+  .hero-note {
+    width: 200px;
+  }
+
+  /* text runs full width around these here: no room to fly */
+  .deco--projects-plane,
+  .deco--contact-rocket,
+  .deco--page-plane,
+  .deco--music-rocket {
+    display: none;
+  }
+
+  .about-layout {
+    gap: 2.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* Drawings: text runs full width here, so only the home plane stays,
+     flying in the band between the nav and the note */
+  .section .deco,
+  .topic-section .deco,
+  .page-head .deco,
+  .deco--hero-rocket {
+    display: none;
+  }
+
+  .deco--hero-plane {
+    top: 10px;
+  }
+
+  /* Chrome: a compact nav, and a hero only as tall as its content */
+  .site-nav {
+    justify-content: flex-start;
+  }
+
+  .site-nav a {
+    padding-block: 4px;
+  }
+
+  .hero {
+    min-height: 0;
+  }
+
+  .hero-main {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    padding-top: 160px;
+  }
+
+  .hero-note {
+    width: auto;
+  }
+
+  .page-title {
+    padding-top: 48px;
+  }
+
+  /* logo above the facts, so the two columns fit the width */
+  .degree-facts {
+    margin-left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .facts {
+    column-gap: 24px;
+  }
+
+  /* Home: project media above the text */
+  .project-body {
+    flex-direction: column;
+  }
+
+  .project-video {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .cert-embed {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  /* About: the sidebar becomes a sticky, scrollable top bar */
+  .about-layout {
+    flex-direction: column;
+    align-items: stretch;                   /* or the photo row widens the column */
+    padding-block: 2rem;
+    gap: 2rem;
+  }
+
+  .topic-section {
+    scroll-margin-top: 4.5rem;
+  }
+
+  .sidebar {
+    top: 0;
+    z-index: 20;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0.6rem var(--gutter);
+    background: var(--c-bg);
+    border-bottom: 1px solid var(--c-ink);
+  }
+
+  .sidebar-label {
+    display: none;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem 1.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .sidebar-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-nav a {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    padding-left: 0;
+    padding-bottom: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .sidebar-nav a:hover,
+  .sidebar-nav a.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--c-red);
+  }
+
+  /* photos: one row that scrolls sideways, the next one peeking in */
+  .topic-images {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .topic-images::-webkit-scrollbar {
+    display: none;
+  }
+
+  .topic-images img {
+    flex: 0 0 80%;
+    min-width: 0;
+    height: 220px;
+    scroll-snap-align: start;
+  }
+
+  .book-card {
+    width: 100%;
+  }
+}
+
+/* ── 8 MOTION ───────────────────────────────────────────────────────────
+
+   Give any element .reveal and it slides in the first time it scrolls into
+   view; the script in index.html adds .section-visible. It only hides
+   content when JS is running (html.js) and the visitor allows motion, so
+   otherwise everything is simply visible. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateX(var(--reveal-shift));
+    transition: opacity var(--dur-reveal) var(--ease), transform var(--dur-reveal) var(--ease);
+  }
+
+  .js .reveal.section-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
