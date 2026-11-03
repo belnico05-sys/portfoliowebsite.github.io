@@ -2,8 +2,8 @@
 
    1  TOKENS       :root: every colour, type size and timing
    2  BASE         reset, html, links
-   3  LAYOUT       .shell, .section, section labels, rocket and plane drawings
-   4  CHROME       masthead, site nav, home hero, contact footer
+   3  LAYOUT       .shell, .section, section labels, title styles, drawings
+   4  CHROME       site nav, home hero, about header, contact footer
    5  HOME         index.html
    6  ABOUT        about.html
    7  RESPONSIVE   tablet 769–1024px, mobile ≤768px
@@ -12,55 +12,68 @@
 
 /* ── 1 TOKENS ───────────────────────────────────────────────────────────
 
-   A restyle should only need this block. In order of impact:
-     palette   --c-ink, --c-bg, --c-red, --c-blue
-     type      --f-*, then the --t-* scale
-     space     --gutter, --section-pad
-     motion    --dur-*, --reveal-shift
+   Both pages are drawn on a 1920px-wide Figma frame. --u is one pixel of
+   that frame: 1px on a 1920px screen, proportionally less on narrower ones,
+   so every size written as calc(N * var(--u)) keeps the mockup's
+   proportions. Small text has a floor so it stays readable.
    Rules below never hardcode a colour, font size or duration.
    The fonts are loaded from Google Fonts by a <link> in each page's <head>. */
 
 :root {
+  --u: min(1px, 100cqw / 1920);             /* one Figma pixel; cqw of <main> */
+
   /* Palette */
   --c-ink: #111111;                         /* text, rules */
   --c-ink-soft: rgba(17, 17, 17, 0.6);      /* field names, inactive links */
   --c-bg: #FFFFFF;
-  --c-red: #D7261E;                         /* rockets, hover, highlights */
-  --c-blue: #1D3FD6;                        /* planes, handwritten notes */
-  --c-video-bg: #000000;
+  --c-red: #D7261E;                         /* hover, highlights */
+  --c-blue: #1D3FD6;                        /* handwritten notes */
+  --c-rocket: #DB6956;                      /* rockets and their trails */
+  --c-sky: #3792DD;                         /* plane and its trail */
 
   /* Type */
   --f-mono: "Space Mono", monospace;        /* base: labels, nav, running text */
   --f-poster: "Anton", sans-serif;          /* the name, poster titles */
-  --f-serif: "Instrument Serif", serif;     /* always italic */
+  --f-serif: "Instrument Serif", serif;
   --f-hand: "Caveat", cursive;              /* handwritten notes */
   --f-sans: "Syne", sans-serif;
-  --t-hero: clamp(84px, 17vw, 270px);       /* the name on the home page */
-  --t-degree: clamp(56px, 10vw, 168px);
-  --t-write: clamp(64px, 9vw, 140px);       /* "write me!" */
-  --t-statement: clamp(40px, 6.4vw, 104px); /* "WHO I AM" */
-  --t-email: clamp(36px, 6vw, 96px);
-  --t-poster: clamp(56px, 7vw, 108px);      /* entry titles, one size per style */
-  --t-hand: clamp(48px, 5.6vw, 84px);
-  --t-serif: clamp(36px, 4vw, 60px);
-  --t-spaced: clamp(20px, 2.2vw, 30px);
-  --t-giant: clamp(72px, 12vw, 190px);      /* about page title, last topic */
-  --t-tagline: clamp(24px, 2.4vw, 34px);
-  --t-note: 34px;                           /* handwritten note above a title */
-  --t-note-sm: 24px;                        /* handwritten dates */
-  --t-meta-serif: 20px;
-  --t-terminal: 18px;
-  --t-facts: 16px;                          /* degree fact list */
-  --t-lead: 15px;                           /* Syne paragraphs */
-  --t-body: 13px;                           /* mono running text */
-  --t-small: 12px;                          /* nav, sidebar, book titles */
-  --t-label: 11px;                          /* section labels, footer, dates */
+  --f-krona: "Krona One", sans-serif;       /* Team Galileo's title */
+  --f-open-sans: "Open Sans", sans-serif;   /* about topic titles, one face each */
+  --f-roboto: "Roboto", sans-serif;
+  --f-playfair: "Playfair", serif;
+  --f-redaction: "Redaction", serif;
+  --t-hero: calc(402 * var(--u));           /* the name on the home page */
+  --t-giant: calc(190 * var(--u));          /* about page title */
+  --t-statement: calc(181 * var(--u));      /* "WHO I AM" */
+  --t-degree: calc(168.6 * var(--u));
+  --t-poster: calc(108 * var(--u));         /* entry and topic titles */
+  --t-wide: calc(64 * var(--u));            /* Team Galileo's title, a much wider face */
+  --t-email: calc(96 * var(--u));
+  --t-project: calc(94 * var(--u));         /* project and award titles */
+  --t-write: calc(79.5 * var(--u));         /* "write me!" */
+  --t-serif: calc(60 * var(--u));
+  --t-tagline: calc(38 * var(--u));
+  --t-note: calc(33 * var(--u));            /* handwritten note above a title */
+  --t-reading: max(14px, calc(32 * var(--u)));   /* "Recommended reading" */
+  --t-book: max(12px, calc(25.6 * var(--u)));    /* book titles */
+  --t-note-sm: max(14px, calc(24 * var(--u)));   /* handwritten dates */
+  --t-lead: max(12px, calc(24 * var(--u)));      /* Syne paragraphs */
+  --t-lead-sm: max(11px, calc(18 * var(--u)));
+  --t-facts-lg: max(12px, calc(23 * var(--u)));  /* first degree's facts */
+  --t-text: max(11px, calc(20 * var(--u)));      /* project and topic paragraphs */
+  --t-hero-note: max(8px, calc(18 * var(--u)));  /* the note beside the name, threaded by its trail */
+  --t-facts: max(11px, calc(16 * var(--u)));
+  --t-desc: max(13px, calc(16 * var(--u)));      /* short paragraphs: bio, entries */
+  --t-body: max(11px, calc(13 * var(--u)));      /* topic subtitles */
+  --t-nav: max(10.5px, calc(15.6 * var(--u)));   /* header menu */
+  --t-footer: max(10px, calc(14.3 * var(--u)));  /* footer credits and links */
+  --t-small: max(10.5px, calc(12 * var(--u)));   /* sidebar */
+  --t-label: max(10px, calc(11 * var(--u)));     /* section labels, dates */
 
   /* Space */
-  --gutter: clamp(20px, 4vw, 64px);         /* side margin of every .shell band */
-  --section-pad: 72px;                      /* top of a .section */
-  --section-pad-end: 96px;                  /* bottom of a .section */
-  --page-max: 1400px;                       /* about.html layout width */
+  --gutter: calc(64 * var(--u));            /* side margin of every .shell band */
+  --section-pad: 72px;                      /* default padding of a .section */
+  --section-pad-end: 96px;
 
   /* Motion */
   --ease: ease;
@@ -88,6 +101,12 @@ html, body {
   overflow-x: clip;
 }
 
+/* --u is measured on it; the page-long trail is positioned against it */
+main {
+  position: relative;
+  container-type: inline-size;
+}
+
 /* headings take all their type from their class */
 h1, h2, h3 {
   font: inherit;
@@ -104,9 +123,10 @@ a:hover {
 
 /* ── 3 LAYOUT ───────────────────────────────────────────────────────── */
 
-/* Side margins of every full-width band. Change --gutter, not this rule. */
+/* Side margins of every full-width band: the frame's 1792px column, centred
+   past 1920px. Change --gutter, not this rule. */
 .shell {
-  padding-inline: var(--gutter);
+  padding-inline: max(var(--gutter), (100% - 1792 * var(--u)) / 2);
 }
 
 /* A band of the page: a column of blocks, each pushed left or right */
@@ -128,12 +148,26 @@ a:hover {
   align-self: flex-end;
 }
 
-/* The mockup's six title styles, used by home entries and about topics,
-   and the date and subtitle styles that go with them */
+/* The mockup's title styles, used by home entries and about topics,
+   and the date styles that go with them */
 .title--poster {
   font-family: var(--f-poster);
   font-size: var(--t-poster);
   line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.title--project {
+  font-family: var(--f-poster);
+  font-size: var(--t-project);
+  line-height: 1.145;
+  text-transform: uppercase;
+}
+
+.title--wide {                            /* Team Galileo: close to its logo's lettering */
+  font-family: var(--f-krona);
+  font-size: var(--t-wide);
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -142,42 +176,6 @@ a:hover {
   font-style: italic;
   font-size: var(--t-serif);
   line-height: 1;
-}
-
-.title--hand {
-  font-family: var(--f-hand);
-  font-weight: 700;
-  font-size: var(--t-hand);
-  line-height: 0.9;
-  color: var(--c-red);
-  transform: rotate(-2deg);
-  transform-origin: left center;
-}
-
-.title--spaced {
-  font-family: var(--f-sans);
-  font-weight: 800;
-  font-size: var(--t-spaced);
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
-
-.title--terminal {
-  font-weight: 700;
-  font-size: var(--t-terminal);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.title--terminal::before { content: "> "; }
-.title--terminal::after  { content: "_"; }
-
-.title--giant {
-  font-family: var(--f-poster);
-  font-size: var(--t-giant);
-  line-height: 0.85;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
 }
 
 .meta--caps {
@@ -192,23 +190,16 @@ a:hover {
   color: var(--c-blue);
 }
 
-.meta--sans {
-  font-family: var(--f-sans);
-  font-weight: 500;
-  font-size: var(--t-body);
+/* Layers, as in the mockup: drawings sit behind the text (z -1), trails
+   lower still (z -2); the letters of a title a trail crosses are .under it,
+   the ones a rocket crosses are .mid, between the trail and the rocket. */
+.under,
+.mid {
+  position: relative;
 }
 
-.meta--serif {
-  font-family: var(--f-serif);
-  font-style: italic;
-  font-size: var(--t-meta-serif);
-}
-
-/* Rockets and planes drawn behind the content. The glyphs are <defs> at the
-   top of each page; a .deco--* placement class positions each drawing. */
-.sprites {
-  position: absolute;
-}
+.under { z-index: -3; }
+.mid   { z-index: -1; }
 
 .deco {
   position: absolute;
@@ -217,32 +208,88 @@ a:hover {
   pointer-events: none;
 }
 
-.deco--red  { color: var(--c-red); }
-.deco--blue { color: var(--c-blue); }
+.deco--red  { color: var(--c-rocket); }
+.deco--blue { color: var(--c-sky); }
 
 .rocket-hull {
   fill: var(--c-bg);
 }
 
-.trail {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  stroke-linecap: round;
+/* the white veil of the plane's frame, which pales the trail beneath it */
+.deco-veil {
+  fill: var(--c-bg);
+  fill-opacity: 0.4;
 }
 
-.trail--dots   { stroke-width: 1.2; stroke-dasharray: 3 8; }
-.trail--dashes { stroke-width: 1.6; stroke-dasharray: 6 10; }
+/* The Figma drawings are placed in its pixels, x from the frame's left edge
+   (50% - 960u while the frame is centred) */
+.deco--long-trail {                       /* each piece shows only its half */
+  z-index: -2;
+  top: 0;
+  left: calc(50% - 960 * var(--u));
+  width: calc(1920 * var(--u));
+  overflow: hidden;
+}
 
-.deco--hero-rocket    { left: 4%;   top: 170px; }
-.deco--hero-plane     { left: 28%;  top: 120px; }
-.deco--bio-rocket     { left: 50%;  top: 40px; }
-.deco--edu-plane      { left: 0;    top: 0; }
-.deco--assoc-rocket   { left: 52%;  top: 120px; }
-.deco--projects-plane { left: 20%;  bottom: -100px; }
-.deco--contact-rocket { right: 30%; top: -80px; }    /* nose in the gap above the block */
-.deco--page-plane     { left: -16%; top: 30px; }
-.deco--music-rocket   { right: 0;   top: 0; }
+.deco--long-trail-end {
+  top: auto;
+  bottom: 0;
+}
+
+.deco--hero-trail {
+  z-index: -2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.deco--hero-rocket {
+  top: calc(215 * var(--u));
+  left: calc(963 * var(--u));
+  width: calc(324 * var(--u));
+}
+
+.deco--bio-trail {
+  z-index: -2;
+  top: calc(60 * var(--u));
+  left: calc(50% - 960 * var(--u));
+  width: calc(1920 * var(--u));
+}
+
+.deco--edu-plane {
+  top: calc(63.3 * var(--u));
+  left: calc(50% - 1005 * var(--u));
+  width: calc(1566 * var(--u));
+  overflow: hidden;                       /* the frame clips the plane's wing */
+}
+
+.deco--footer-rocket {                    /* behind the footer text */
+  top: calc(558 * var(--u));
+  left: calc(50% - 264 * var(--u));
+  width: calc(329 * var(--u));
+}
+
+/* about.html: the home page's plane, half past the screen's left edge as
+   if flying in, and its rocket beside the Music text */
+.deco--page-plane {
+  top: calc(20 * var(--u));
+  left: calc(-400 * var(--u));
+  width: calc(861 * var(--u));
+}
+
+/* the footer rocket on about.html, between "write me!" and the email */
+.deco--contact-rocket {
+  top: calc(350 * var(--u));
+  left: calc(50% - 531.5 * var(--u));
+  width: calc(329 * var(--u));
+}
+
+.deco--music-rocket {
+  top: 0;
+  left: calc(870 * var(--u));
+  width: calc(324 * var(--u));
+}
 
 /* ── 4 CHROME ───────────────────────────────────────────────────────── */
 
@@ -250,8 +297,8 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 4px 28px;
-  font-size: var(--t-small);
+  gap: 4px max(28px, calc(36.4 * var(--u)));
+  font-size: var(--t-nav);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -264,59 +311,79 @@ a:hover {
   color: var(--c-red);
 }
 
-/* Home page header: the nav on top, the name pushed to the bottom right */
-.hero {
+/* Home page header: the 1920 × 900 frame of the mockup, every piece placed
+   in it as in Figma */
+.hero-frame {
   position: relative;
-  min-height: 900px;
-  padding-block: 32px 64px;
-  display: flex;
-  flex-direction: column;
+  width: calc(1920 * var(--u));
+  height: calc(900 * var(--u));
+  margin-inline: auto;
 }
 
-/* the note on the left of the name, both sitting on the same bottom line */
-.hero-main {
-  margin-top: auto;
-  padding-top: 120px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  gap: 48px;
+.hero-frame .site-nav {
+  position: absolute;
+  top: calc(32 * var(--u));
+  right: var(--gutter);
+  left: var(--gutter);
 }
 
-.hero-note {
-  width: 300px;
-  min-width: 180px;
-  flex-shrink: 1;
-  font-size: var(--t-body);
-  line-height: 1.75;
-}
-
+/* the two lines of the name, each placed on its own */
 .site-title {
-  text-align: right;
   font-family: var(--f-poster);
   font-size: var(--t-hero);
-  line-height: 0.84;
-  letter-spacing: -0.01em;
+  line-height: calc(258 * var(--u));
+  letter-spacing: -0.0067em;
   text-transform: uppercase;
 }
 
+.site-title-first,
+.site-title-last {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.site-title-first {
+  top: calc(211.5 * var(--u));
+  left: calc(-34 * var(--u));
+}
+
+.site-title-last {
+  top: calc(547.5 * var(--u));
+  left: calc(633 * var(--u));
+}
+
 .tagline {
-  max-width: 400px;
-  margin-top: 48px;
+  position: absolute;
+  top: calc(242 * var(--u));
+  left: calc(1256 * var(--u));
   font-family: var(--f-serif);
-  font-style: italic;
   font-size: var(--t-tagline);
-  line-height: 1.15;
+  line-height: 1.105;
+}
+
+.hero-note {
+  position: absolute;
+  top: calc(712 * var(--u));
+  left: calc(76 * var(--u));
+  font-size: var(--t-hero-note);
+  line-height: 1.2667;
+}
+
+.hero-note-end {
+  position: absolute;
+  top: calc(80 * var(--u));
+  left: calc(287 * var(--u));
+  white-space: nowrap;
 }
 
 /* about.html header: the nav, then the page title on the right */
 .page-head {
   position: relative;
-  padding-block: 32px 48px;
+  padding-top: calc(79.4 * var(--u));
 }
 
 .page-title {
-  padding-top: 80px;
+  padding-top: calc(59 * var(--u));
   text-align: right;
   font-family: var(--f-poster);
   font-size: var(--t-giant);
@@ -327,10 +394,10 @@ a:hover {
 
 /* Footer: the contact block */
 .contact {
-  padding-bottom: 40px;
-  gap: 48px;
+  padding-block: calc(280 * var(--u)) calc(230 * var(--u));
 }
 
+/* about.html: "write me!" with the section label beside it */
 .contact-head {
   display: flex;
   flex-wrap: wrap;
@@ -339,17 +406,17 @@ a:hover {
   gap: 32px;
 }
 
-.contact-hand {
-  font-family: var(--f-hand);
-  font-weight: 700;
+.contact-note {
+  margin-left: calc(-9.6 * var(--u));
+  font-family: var(--f-serif);
   font-size: var(--t-write);
-  line-height: 0.8;
-  color: var(--c-blue);
+  line-height: 1;
 }
 
 .contact-email {
   align-self: flex-end;
   max-width: 100%;
+  margin: calc(85.3 * var(--u)) calc(9 * var(--u)) 0 0;
   overflow-wrap: anywhere;
   text-align: right;
   font-family: var(--f-poster);
@@ -362,11 +429,12 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
-  padding-top: 24px;
+  margin-top: calc(47.2 * var(--u));
+  padding-top: calc(27.4 * var(--u));
   border-top: 1px solid var(--c-ink);
-  font-size: var(--t-label);
+  font-size: var(--t-footer);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -374,58 +442,64 @@ a:hover {
 .social-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 24px;
-}
-
-.social-nav a {
-  padding-block: 12px;
+  gap: 4px max(24px, calc(31.2 * var(--u)));
+  margin-top: calc(9 * var(--u));
 }
 
 /* ── 5 HOME ─────────────────────────────────────────────────────────── */
 
-/* 01 Who I am */
+/* 01 Who I am: text and photo side by side, "WHO I AM" over the photo's corner */
 .bio-section {
-  gap: 48px;
+  padding-block: calc(116.4 * var(--u)) 0;
 }
 
-.bio-statement {
-  max-width: 960px;
-  font-family: var(--f-sans);
-  font-weight: 800;
-  font-size: var(--t-statement);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-}
-
-/* under the statement: the text on the left, the photo at the far right */
 .bio-row {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   align-items: flex-start;
-  gap: 40px;
+  gap: calc(62 * var(--u));
+  margin-top: calc(134.3 * var(--u));
+  padding-left: calc(134 * var(--u));
 }
 
+.bio-text {
+  flex-shrink: 0;
+  width: calc(438 * var(--u));
+  /* the blue trail runs between the two paragraphs: the first one's seven
+     lines (12.25em) end just above it, whatever the text's minimum size */
+  margin-top: calc(287.8 * var(--u) - 12.25 * var(--t-desc));
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+  font-size: var(--t-desc);
+  line-height: 1.75;
+}
+
+/* the trail flies over it */
 .profile-picture {
-  width: 220px;
-  height: 220px;
+  position: relative;
+  z-index: -3;
+  width: calc(541 * var(--u));
+  aspect-ratio: 1;
   object-fit: cover;
   display: block;
 }
 
-.bio-text {
-  max-width: 340px;
-  font-size: var(--t-body);
-  line-height: 1.75;
+.bio-statement {
+  margin: calc(-78.3 * var(--u)) 0 0 calc(933 * var(--u));
+  font-family: var(--f-poster);
+  font-size: var(--t-statement);
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 /* 02 Higher education: the degree, then one row of facts per school */
 .degree-section {
-  gap: 40px;
+  padding-block: calc(148.7 * var(--u)) 0;
 }
 
 .degree {
   align-self: flex-end;
+  margin-top: calc(39.1 * var(--u));
   text-align: right;
 }
 
@@ -436,33 +510,34 @@ a:hover {
 }
 
 .degree-title {
+  margin-top: calc(-8.4 * var(--u));
   font-family: var(--f-serif);
-  font-style: italic;
   font-size: var(--t-degree);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
+  line-height: 1;
+  letter-spacing: -0.022em;
 }
 
 .degree-row {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-end;
-  gap: 40px;
+  align-items: flex-start;
+  margin-top: calc(341.4 * var(--u));
+  padding-inline: calc(18 * var(--u)) calc(344 * var(--u));
 }
 
 .degree-facts {
   display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-left: 10%;
+  align-items: flex-start;
+  gap: calc(48 * var(--u));
 }
 
 .facts {
   display: grid;
   grid-template-columns: auto auto;
-  gap: 14px 40px;
-  font-size: var(--t-facts);
+  column-gap: calc(29 * var(--u));
+  margin-top: calc(46.4 * var(--u));
+  font-size: var(--t-facts-lg);
+  line-height: 1.652;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -472,47 +547,67 @@ a:hover {
 }
 
 .degree-desc {
-  max-width: 420px;
-  margin-left: auto;                        /* stays right when the row wraps */
+  max-width: calc(640 * var(--u));
+  margin-top: calc(49.4 * var(--u));
   text-align: right;
   font-family: var(--f-sans);
   font-weight: 500;
   font-size: var(--t-lead);
-  line-height: 1.5;
+  line-height: 1.3;
 }
 
 .degree-desc strong {
   font-family: var(--f-poster);
   font-weight: 400;
-  font-size: var(--t-body);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--c-red);
 }
 
 .org-logo {
-  width: 72px;
-  height: 72px;
+  width: calc(115 * var(--u));
+  height: calc(115 * var(--u));
   object-fit: contain;
   flex-shrink: 0;
 }
 
-/* artwork inside a transparent margin (it fills 68% of the file):
-   scale it up to match logos that fill theirs, layout box unchanged */
-.org-logo--padded {
-  transform: scale(1.47);
+/* the second school, drawn smaller */
+.degree-row--minor {
+  margin-top: calc(45.6 * var(--u));
+  padding-inline: calc(24 * var(--u)) calc(571 * var(--u));
 }
 
-/* 03–04 Entries span the width and alternate sides (.entry--end goes
-   right). Each title takes one of the .title--* styles. */
+.degree-row--minor .degree-facts { gap: calc(7 * var(--u)); }
+.degree-row--minor .org-logo     { width: calc(106 * var(--u)); height: calc(106 * var(--u)); }
+
+.degree-row--minor .facts {
+  column-gap: calc(40 * var(--u));
+  margin-top: calc(15.1 * var(--u));
+  font-size: var(--t-facts);
+  line-height: 2.375;
+}
+
+.degree-row--minor .degree-desc {
+  max-width: calc(495 * var(--u));
+  margin-top: calc(20.3 * var(--u));
+  font-size: var(--t-lead-sm);
+}
+
+/* 03 Entries alternate sides (.entry--end goes right).
+   Each title takes one of the .title--* styles. */
 .entries-section {
-  gap: 56px;
+  padding-block: calc(257.4 * var(--u)) 0;
 }
 
 .entry {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: calc(54.7 * var(--u));
+}
+
+.entry + .entry {
+  margin-top: calc(56.7 * var(--u));
 }
 
 .entry--end {
@@ -520,128 +615,156 @@ a:hover {
   text-align: right;
 }
 
-/* the title, with the logo (if any) right beside it, on the inner side */
+/* the title, with the logo right beside it, on the inner side */
 .entry-head {
   align-self: stretch;
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: calc(25 * var(--u));
 }
 
 .entry--end .entry-head {
   flex-direction: row-reverse;
+  gap: calc(22 * var(--u));
 }
 
-/* every logo as tall as 80% of the poster title line, the tallest one */
-.entry-head .org-logo {
-  width: auto;
-  height: calc(var(--t-poster) * 0.9 * 0.8);
-}
-
-/* a round logo looks smaller than a wide one at the same height */
-.entry-head .org-logo--round {
-  height: var(--t-poster);
-}
+.org-logo--wide  { width: calc(155.5 * var(--u)); height: calc(77.75 * var(--u)); }
+.org-logo--round { width: calc(108 * var(--u));   height: calc(108 * var(--u)); }
 
 .entry-meta {
-  margin-top: 10px;
+  margin-top: calc(11.8 * var(--u));
+}
+
+.entry--end .entry-meta {
+  margin-top: calc(9.3 * var(--u));
 }
 
 .entry-desc {
-  max-width: 340px;
-  margin-top: 16px;
-  font-size: var(--t-body);
+  max-width: calc(375 * var(--u));
+  margin-top: calc(16 * var(--u));
+  font-size: var(--t-desc);
   line-height: 1.75;
 }
 
-/* Projects: media beside a text that fills the rest of the row, left-aligned on either side */
-.project-body {
-  align-self: stretch;
+/* 04 Projects: media and text side by side, the title heading the text */
+.projects-section {
+  padding-block: calc(303.8 * var(--u)) 0;
+}
+
+.project {
   display: flex;
-  gap: 28px;
-  align-items: flex-start;
-  margin-top: 24px;
-  text-align: left;
+  align-items: center;
+  gap: calc(44 * var(--u));
+  margin-top: calc(149.4 * var(--u));
+  padding-left: calc(124 * var(--u));
 }
 
-.project-body .entry-desc {
-  flex: 1;
-  max-width: none;
-  margin-top: 0;
+.project-text {
+  width: calc(768 * var(--u));
+  font-size: var(--t-text);
+  line-height: 1.5;
 }
 
-.project-video {
-  width: 155px;
+.project-text h3 {
+  margin-bottom: calc(32.5 * var(--u));
+}
+
+.project-text p {
+  margin-left: calc(8 * var(--u));
+}
+
+.project-text p + p {
+  margin-top: 1.5em;
+}
+
+.project-photo {
   flex-shrink: 0;
-  background: var(--c-video-bg);
+  width: calc(652 * var(--u));
+  height: calc(631 * var(--u));
+  object-fit: contain;                    /* the whole drone */
+  transform: translateY(calc(-30 * var(--u))) scale(1.15);   /* an arm hides the trail's corner */
 }
+
+/* the award: text first, the certificate a little lower */
+.project--award {
+  align-items: flex-start;
+  gap: calc(58 * var(--u));
+  margin-top: calc(375 * var(--u));
+  padding-left: calc(119 * var(--u));
+}
+
+.project--award .project-text { width: calc(740 * var(--u)); }
+.project--award .project-text p { margin-left: 0; }
+.project--award h3            { margin-bottom: calc(111.5 * var(--u)); }
 
 .cert-embed {
-  width: 320px;
-  flex-shrink: 0;
+  width: calc(768 * var(--u));
+  height: calc(538 * var(--u));
+  margin-top: calc(78 * var(--u));
   display: block;
   object-fit: contain;
 }
 
 /* ── 6 ABOUT ────────────────────────────────────────────────────────── */
 
+/* The sidebar, then the topics from x 670: the mockup's x 584 moved right
+   so the sidebar and the text sit centred on the screen */
 .about-layout {
   display: flex;
-  gap: 5rem;
-  padding-block: 4rem;
   align-items: flex-start;
-  max-width: var(--page-max);
-  margin: 0 auto;
+  gap: calc(80 * var(--u));
+  padding-top: calc(96 * var(--u));
 }
 
-/* Sidebar */
+/* Sidebar: centred between the screen's edge and the texts (x 258–412),
+   "TOPICS" level with the first topic's title */
 .sidebar {
-  width: 180px;
-  flex-shrink: 0;
   position: sticky;
   top: 3rem;
+  flex-shrink: 0;
+  width: calc(332 * var(--u));
+  margin: calc(109 * var(--u)) 0 0 calc(194 * var(--u));
 }
 
 .sidebar-label {
+  margin-bottom: calc(15 * var(--u));
   font-size: var(--t-label);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--c-ink-soft);
-  margin-bottom: 1rem;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: calc(4 * var(--u));
 }
 
 .sidebar-nav a {
+  padding: calc(6.4 * var(--u)) 0 calc(6.4 * var(--u)) calc(16 * var(--u));
   font-size: var(--t-small);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--c-ink-soft);
-  padding: 0.35rem 0 0.35rem 0.875rem;
-  border-left: 2px solid transparent;
-  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+  transition: color var(--dur-fast) var(--ease);
 }
 
 .sidebar-nav a:hover,
 .sidebar-nav a.active {
   color: var(--c-red);
-  border-left-color: var(--c-red);
 }
 
 /* Content */
 .about-content {
   flex: 1;
   min-width: 0;
+  padding-top: calc(113 * var(--u));
 }
 
-/* Each topic: a .title--* heading and a .meta--* subtitle */
+/* Each topic: a poster title, a subtitle, the text, then its books */
 .topic-section {
   position: relative;
-  padding-bottom: var(--section-pad-end);
+  padding-bottom: calc(360 * var(--u));
   scroll-margin-top: 2rem;
 }
 
@@ -649,81 +772,105 @@ a:hover {
   padding-bottom: 0;
 }
 
+/* the poster title's size in sentence case, Rugby's in caps; the faces
+   are each topic's own */
+.topic-heading       { text-transform: none; }
+.topic-heading--caps { text-transform: uppercase; }
+
+.topic-heading--finance         { font-family: var(--f-open-sans); font-weight: 800; }
+.topic-heading--entrepreneurship { font-family: var(--f-roboto);    font-weight: 900; }
+.topic-heading--music            { font-family: var(--f-playfair);  font-weight: 900; }
+.topic-heading--philosophy       { font-family: var(--f-redaction); font-weight: 700; }
+
 .topic-subtitle {
-  margin-top: 10px;
-  margin-bottom: 2.5rem;
+  margin-top: calc(14 * var(--u));
+  font-size: var(--t-body);
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
 }
 
 .topic-context {
-  font-size: var(--t-body);
-  line-height: 1.75;
-  margin-bottom: 2.5rem;
-  max-width: 68ch;
+  max-width: calc(840 * var(--u));
+  margin-top: calc(44 * var(--u));
+  font-size: var(--t-text);
+  line-height: 1.5;
 }
 
-/* Images */
-.topic-images {
+/* Rugby: text and photo side by side, swapping sides row by row */
+.topic-row {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(60 * var(--u));
+  max-width: calc(1150 * var(--u));
+  margin-top: calc(44 * var(--u));
 }
 
-.topic-images img {
+.topic-row + .topic-row {
+  margin-top: calc(60 * var(--u));
+}
+
+.topic-row .topic-context {
+  margin-top: 0;
+}
+
+.topic-photo {
+  flex-shrink: 0;
+  width: calc(390 * var(--u));
+  height: calc(310 * var(--u));
   object-fit: cover;
   object-position: center top;
-  flex: 1;
-  min-width: 180px;
-  height: 260px;
 }
 
-/* a logo among the photos: shown whole */
-.topic-images .topic-logo {
-  object-fit: contain;
-}
-
-/* Book references */
+/* Book references: one per row, alternating sides */
 .books-heading {
-  font-size: var(--t-label);
-  letter-spacing: 0.2em;
+  margin-top: calc(96 * var(--u));      /* close to its topic's text */
+  font-size: var(--t-reading);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--c-ink-soft);
-  margin-bottom: 1rem;
 }
 
 .books-grid {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: calc(105 * var(--u));
+  width: calc(856 * var(--u));
+  max-width: 100%;
+  margin-top: calc(65 * var(--u));
 }
 
 .book-card {
-  display: inline-flex;
-  gap: 0.75rem;
+  display: flex;
+  gap: calc(43 * var(--u));
   align-items: flex-start;
 }
 
+.book-card:nth-child(even) {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
 .book-cover {
-  width: 90px;
-  height: 126px;
-  object-fit: cover;
   flex-shrink: 0;
+  width: calc(220 * var(--u));
+  height: calc(308 * var(--u));
+  object-fit: cover;
 }
 
 .book-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: calc(3 * var(--u));
 }
 
 .book-title {
-  font-size: var(--t-small);
+  font-size: var(--t-book);
   font-weight: 700;
   line-height: 1.3;
 }
 
 .book-author {
-  font-size: var(--t-label);
+  font-size: var(--t-text);
   color: var(--c-ink-soft);
 }
 
@@ -732,53 +879,66 @@ a:hover {
    Two breakpoints, used everywhere:
      tablet   769–1024px
      mobile   ≤768px  (also MOBILE_BP in about.html's script: keep in sync)
-   Most of the type and the gutter scale on their own through clamp(). */
+   Above 768px each page is its Figma frame scaled down through --u;
+   on mobile it becomes one column. */
 
 /* Tablet */
 @media (max-width: 1024px) and (min-width: 769px) {
-  /* keep the plane off the right-aligned section label, the rocket between bio text and photo */
-  .deco--edu-plane {
-    left: -80px;
+  /* the small text is held at its minimum size here, so it grows past the
+     mockup's proportions: the trails that would cross it stay home, and the
+     footer rocket flies beside "write me!" */
+  .deco--long-trail,
+  .deco--bio-trail {
+    display: none;
   }
 
-  .deco--bio-rocket {
-    left: 38%;
+  .deco--footer-rocket {
+    top: calc(280 * var(--u) - 30px);
+    right: var(--gutter);
+    left: auto;
+    width: 120px;
   }
 
-  /* narrower, so it stays clear of the hero rocket trail */
-  .hero-note {
-    width: 200px;
-  }
-
-  /* text runs full width around these here: no room to fly */
-  .deco--projects-plane,
-  .deco--contact-rocket,
-  .deco--page-plane,
+  /* and this one would meet the text */
   .deco--music-rocket {
     display: none;
   }
 
-  .about-layout {
-    gap: 2.5rem;
+  /* the topic names are held at their minimum size too */
+  .sidebar {
+    width: auto;
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  /* Drawings: text runs full width here, so only the home plane stays,
-     flying in the band between the nav and the note */
-  .section .deco,
-  .topic-section .deco,
-  .page-head .deco,
-  .deco--hero-rocket {
+  :root {
+    --gutter: 20px;
+    --t-hero: 84px;
+    --t-giant: 72px;
+    --t-statement: 56px;
+    --t-degree: 44px;
+    --t-poster: 40px;
+    --t-wide: 24px;
+    --t-email: 26px;
+    --t-project: 36px;
+    --t-write: 40px;
+    --t-serif: 32px;
+    --t-tagline: 20px;
+    --t-note: 20px;
+  }
+
+  /* Drawings: text runs full width here, so only the hero and footer rockets stay */
+  .deco--long-trail,
+  .deco--hero-trail,
+  .deco--bio-trail,
+  .deco--edu-plane,
+  .deco--page-plane,
+  .deco--music-rocket {
     display: none;
   }
 
-  .deco--hero-plane {
-    top: 10px;
-  }
-
-  /* Chrome: a compact nav, and a hero only as tall as its content */
+  /* Chrome: a compact nav */
   .site-nav {
     justify-content: flex-start;
   }
@@ -787,50 +947,187 @@ a:hover {
     padding-block: 4px;
   }
 
-  .hero {
-    min-height: 0;
-  }
-
-  .hero-main {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 24px;
-    padding-top: 160px;
-  }
-
-  .hero-note {
+  /* Hero: the frame becomes a column: nav, the name flush left with the
+     rocket after "Nicola", then tagline and note */
+  .hero-frame {
     width: auto;
+    height: auto;
+    padding: 24px var(--gutter) 40px;
+  }
+
+  .hero-frame .site-nav,
+  .site-title-first,
+  .site-title-last,
+  .tagline,
+  .hero-note,
+  .hero-note-end {
+    position: static;
+  }
+
+  .site-title {
+    margin-top: 48px;
+    line-height: 0.87;
+  }
+
+  .site-title-first,
+  .site-title-last {
+    display: block;
+    letter-spacing: -0.01em;
+  }
+
+  .deco--hero-rocket {
+    top: 120px;
+    left: calc(var(--gutter) + var(--t-hero) * 2.6);
+    width: 60px;
+  }
+
+  .tagline,
+  .hero-note {
+    margin-top: 24px;
+  }
+
+  .hero-note-end {
+    display: block;
+    margin-top: 0.5em;
+    text-align: right;
   }
 
   .page-title {
     padding-top: 48px;
   }
 
-  /* logo above the facts, so the two columns fit the width */
-  .degree-facts {
-    margin-left: 0;
+  /* Bio: text, photo and statement stacked */
+  .bio-section {
+    padding-top: 48px;
+  }
+
+  .bio-row {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 32px;
+    margin-top: 32px;
+    padding-left: 0;
+  }
+
+  .bio-text {
+    width: auto;
+    margin-top: 0;
+  }
+
+  .profile-picture {
+    width: 100%;
+    max-width: 313px;
+  }
+
+  .bio-statement {
+    margin: -40px 0 0 0;
+  }
+
+  /* Degree: logo above the facts, so the two columns fit the width */
+  .degree-section,
+  .entries-section,
+  .projects-section {
+    padding-top: 72px;
+  }
+
+  .degree-row,
+  .degree-row--minor {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 40px;
+    padding-inline: 0;
+  }
+
+  .degree-facts,
+  .degree-row--minor .degree-facts {
+    flex-direction: column;
     gap: 16px;
   }
 
-  .facts {
-    column-gap: 24px;
+  .facts,
+  .degree-row--minor .facts,
+  .degree-desc,
+  .degree-row--minor .degree-desc {
+    max-width: none;
+    margin-top: 0;
+    line-height: 1.6;
   }
 
-  /* Home: project media above the text */
-  .project-body {
-    flex-direction: column;
+  .degree-desc {
+    margin-left: auto;
   }
 
-  .project-video {
-    width: 100%;
+  .org-logo,
+  .degree-row--minor .org-logo { width: 72px; height: 72px; }
+  .org-logo--wide              { width: 58px; height: 29px; }   /* the title's proportions */
+  .org-logo--round             { width: 58px; height: 58px; }
+
+  .entry-desc {
     max-width: 280px;
   }
 
-  .cert-embed {
+  .entry,
+  .entry + .entry {
+    margin-top: 32px;
+  }
+
+  /* Projects: media above the text */
+  .project,
+  .project--award {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    margin-top: 48px;
+    padding-left: 0;
+  }
+
+  .project-text,
+  .project--award .project-text {
+    width: auto;
+  }
+
+  .project-text h3,
+  .project--award h3 {
+    margin-bottom: 8px;
+  }
+
+  .project-photo {
     width: 100%;
-    max-width: 360px;
+    height: auto;
+    transform: none;
+  }
+
+  .cert-embed {
+    order: -1;
+    width: 100%;
+    height: auto;
+    margin-top: 0;
+  }
+
+  /* Footer: the rocket flies beside "write me!" */
+  .contact {
+    padding-block: 72px 40px;
+  }
+
+  .deco--footer-rocket {
+    top: 64px;
+    right: 0;
+    left: auto;
+    width: 110px;
+  }
+
+  .deco--contact-rocket {
+    top: 60px;
+    left: calc(50% - 20px);
+    width: 90px;
+  }
+
+  .contact-email {
+    margin-top: 32px;
+  }
+
+  .footer-bar {
+    margin-top: 16px;
+    padding-top: 16px;
   }
 
   /* About: the sidebar becomes a sticky, scrollable top bar */
@@ -841,6 +1138,10 @@ a:hover {
     gap: 2rem;
   }
 
+  .about-content {
+    padding-top: 0;
+  }
+
   .topic-section {
     scroll-margin-top: 4.5rem;
   }
@@ -849,7 +1150,7 @@ a:hover {
     top: 0;
     z-index: 20;
     width: 100vw;
-    margin-left: calc(50% - 50vw);
+    margin: 0 0 0 calc(50% - 50vw);
     padding: 0.6rem var(--gutter);
     background: var(--c-bg);
     border-bottom: 1px solid var(--c-ink);
@@ -872,7 +1173,6 @@ a:hover {
   }
 
   .sidebar-nav a {
-    border-left: none;
     border-bottom: 2px solid transparent;
     padding-left: 0;
     padding-bottom: 0.2rem;
@@ -881,31 +1181,49 @@ a:hover {
 
   .sidebar-nav a:hover,
   .sidebar-nav a.active {
-    border-left-color: transparent;
     border-bottom-color: var(--c-red);
   }
 
-  /* photos: one row that scrolls sideways, the next one peeking in */
-  .topic-images {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+  .topic-context {
+    margin-top: 20px;
   }
 
-  .topic-images::-webkit-scrollbar {
-    display: none;
+  .topic-context {
+    max-width: none;
+  }
+  /* Rugby: each text and photo stacked, the photo full width */
+  .topic-row,
+  .topic-row + .topic-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    max-width: none;
+    margin-top: 24px;
   }
 
-  .topic-images img {
-    flex: 0 0 80%;
-    min-width: 0;
-    height: 220px;
-    scroll-snap-align: start;
+  .topic-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 390 / 310;
+  }
+
+  .books-heading {
+    margin-top: 28px;
+  }
+
+  .books-grid {
+    gap: 20px;
+    width: auto;
+    margin-top: 16px;
   }
 
   .book-card {
-    width: 100%;
+    gap: 12px;
+  }
+
+  .book-cover {
+    width: 90px;
+    height: 126px;
   }
 }
 
