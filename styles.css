@@ -439,6 +439,13 @@ a:hover {
   text-transform: uppercase;
 }
 
+/* Space Mono draws © small and raised: brought up to cap height, on the baseline */
+.copyright {
+  font-size: 1.4em;
+  line-height: 0;
+  vertical-align: -0.31em;
+}
+
 .social-nav {
   display: flex;
   flex-wrap: wrap;
